@@ -1,1 +1,6 @@
 /bin/
+*.log
+/temp/
+/data/setting.txt
+/data/validate.txt
+/data/user.txt
