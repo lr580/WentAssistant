@@ -1,6 +1,6 @@
 /bin/
 *.log
 /temp/
-/data/setting.txt
+/data/settings.txt
 /data/validate.txt
 /data/user.txt

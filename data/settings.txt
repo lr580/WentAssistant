@@ -1,7 +1,0 @@
-8
-127.0.0.1
-3306
-went
-root
-vYBqCGHU7NbtFz78aJzPpg==
-serverTimezone=UTC
