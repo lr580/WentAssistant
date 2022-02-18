@@ -11,7 +11,7 @@ public class FileHelper {// 封装读写文件
             StringBuilder sb = new StringBuilder();
             String tmp = "";
             while (null != (tmp = bfr.readLine())) {
-                sb.append(tmp);
+                sb.append(tmp + "\n");
             }
             bfr.close();
             fr.close();
