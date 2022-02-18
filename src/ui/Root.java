@@ -6,7 +6,7 @@ import mysql.*;
 import java.awt.event.*;
 
 public class Root extends JFrame {
-    private final static String title = "学生成绩管理系统";
+    private final static String title = "文常助手";
     public static Root that = null;
 
     public Root() {

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.HashMap;
-import plugin.FileHelper;
 import plugin.Pair;
 
 public class CatTree {

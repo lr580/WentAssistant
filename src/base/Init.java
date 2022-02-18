@@ -49,7 +49,7 @@ public class Init {
         boolean integrity = create_if_not_exist();
 
         login_md5 = FileHelper.read(f_psw);
-        String check_std = FileHelper.read(f_vali);
+        String check_std = FileHelper.read(f_vali).trim();
         if (check_std == null) {
             System.out.println("error: check_msg null");
             return false;
