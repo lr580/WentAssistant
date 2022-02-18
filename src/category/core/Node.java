@@ -23,11 +23,4 @@ public class Node {
     public String toString() {
         return w + " " + father + " " + name;
     }
-
-    // public static void main(String[] args) {
-    // String a = "abc";
-    // String b = a;
-    // a = "def";
-    // System.out.println(a + b);
-    // }
 }
