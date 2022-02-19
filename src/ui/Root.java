@@ -66,6 +66,7 @@ public class Root extends JFrame {
             new SetDatabase(this);
         }
         DbLoader.checkinit();
+        DbLoad.checkinit();
     }
 
     public static void updateTitle() {

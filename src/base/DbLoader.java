@@ -18,7 +18,6 @@ public class DbLoader {
     private static int top = 0;// 数据表累积数
 
     public static void checkinit() {// 检查是否需要初始化，是则自动执行
-        cr_info();
         init_info();
         DbCtrl.write_diary("启动程序");
     }
@@ -60,6 +59,8 @@ public class DbLoader {
     }
 
     private static void init_info() {// 初始化表格
+        cr_info();
+
         String cmd1 = "insert ignore into `info` (`key`, `value`) values (?, ?)";
         info_adder = Ctrl.pre(cmd1);
 

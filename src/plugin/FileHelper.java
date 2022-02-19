@@ -10,8 +10,14 @@ public class FileHelper {// 封装读写文件
             BufferedReader bfr = new BufferedReader(fr);
             StringBuilder sb = new StringBuilder();
             String tmp = "";
+            boolean firstline = false;
             while (null != (tmp = bfr.readLine())) {
-                sb.append(tmp + "\n");
+                if (!firstline) {
+                    firstline = true;
+                } else {
+                    sb.append("\n");
+                }
+                sb.append(tmp);
             }
             bfr.close();
             fr.close();
