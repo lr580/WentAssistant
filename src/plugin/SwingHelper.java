@@ -10,4 +10,8 @@ public class SwingHelper {
     public static void syso(String s){
         JOptionPane.showMessageDialog(null, s);
     }
+
+    public static void syso(int s){
+        syso(Integer.toString(s));
+    }
 }

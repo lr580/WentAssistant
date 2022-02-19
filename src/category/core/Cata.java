@@ -4,13 +4,15 @@ import java.sql.ResultSet;
 import mysql.Ctrl;
 
 public class Cata {// 数据库与类别数据的增删改查
+    public static String init_info = "1 1\n1 0 0 总";
+
     private static boolean add(String typex, String nr) { // 注意 typex 是 type_x 下同
         String cmd = "insert ignore into `category` (`key`, `value`) values ('" + typex + "', '" + nr + "')";
         return Ctrl.update(cmd);
     }
 
     public static boolean add(String typex) {
-        return add(typex, "0 0");
+        return add(typex, init_info);
     }
 
     public static boolean update(String typex, String nr) {
@@ -31,7 +33,7 @@ public class Cata {// 数据库与类别数据的增删改查
             return res.getString("value");
         } catch (Exception e) {
             Ctrl.raised(e);
-            return "0 0";
+            return init_info;
         }
     }
 }

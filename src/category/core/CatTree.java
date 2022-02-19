@@ -169,6 +169,8 @@ public class CatTree {
 
     public void editNode(int idx, String name, int fa, int w) {
         Node nd = new Node(w, fa, name);
+        h.remove(p.get(idx).name);
+        h.put(name, idx);
         p.set(idx, nd);
     }
 
