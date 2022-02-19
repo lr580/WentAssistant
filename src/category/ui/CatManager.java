@@ -28,7 +28,8 @@ public class CatManager extends JDialog {
     private static String title = "类别管理";
 
     public CatManager(String type, int x, CatTree cata) {
-        super(Root.that, title, false);// true不方便移动
+        // true不方便移动,但为了防止一边修改(特别是删除)类别一边修改项目，所以禁用父窗口，且应当要求解冻后重新加载父窗口跟类别相关的一切信息
+        super(Root.that, title, false);
         this.cata = cata;
         this.x = x;
         this.type = type;
@@ -45,7 +46,8 @@ public class CatManager extends JDialog {
         Container ct = getContentPane();
         setLayout(new BorderLayout());
         catr = new CatRenderer(cata, rootm);
-        ct.add(BorderLayout.CENTER, catr);
+        JScrollPane jsr = new JScrollPane(catr);
+        ct.add(BorderLayout.CENTER, jsr);
         JPanel jp_uf = new JPanel(new GridLayout(2, 1, 10, 0));
         JPanel jp_line = new JPanel(new FlowLayout(0, 8, 5));
         JPanel jp_line2 = new JPanel(new FlowLayout(0, 8, 5));
@@ -55,7 +57,7 @@ public class CatManager extends JDialog {
         jp_line2.add(b_update);
         jp_line2.add(b_delete);
         jp_line.add(b_save);
-        jp_line2.add(b_undo);
+        // jp_line2.add(b_undo);
         jp_uf.add(jp_line);
         jp_uf.add(jp_line2);
 

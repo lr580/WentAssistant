@@ -7,13 +7,13 @@ import category.core.CatTree;
 public class CatRenderer extends JTree {
     private CatTree cata = null;
 
-    public CatRenderer(CatTree cata, DefaultMutableTreeNode root) {
-        super(root);
-        this.cata = cata;
-        // TreeSelectionModel tsm = getSelectionModel();
-        // tsm.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        // setSelectionModel(tsm);//没用
-    }
+    // public CatRenderer(CatTree cata, DefaultMutableTreeNode root) {
+    // super(root);
+    // this.cata = cata;
+    // TreeSelectionModel tsm = getSelectionModel();
+    // tsm.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+    // setSelectionModel(tsm);//没用
+    // }
 
     public CatRenderer(CatTree cata, DefaultTreeModel root) {
         super(root);
