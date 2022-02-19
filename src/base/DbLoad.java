@@ -1,7 +1,10 @@
 package base;
 
 import java.sql.*;
+
+import category.core.CatTree;
 import category.core.Cata;
+import category.ui.CatManager;
 import mysql.*;
 // import ui.*;
 
@@ -24,8 +27,12 @@ public class DbLoad {
         info_changer = Ctrl.pre(ccmd2);
 
         init_table("fin");
+        // 以下都测试用
         // Cata.update("fin_1", "4 5\n1 0 0 总\n2 5 1 A类\n3 1 1 B类\n5 10 3 杂项");// 测试用
         // Cata.delete("fin_2");// 测试用
+        CatTree cata = new CatTree(Cata.query("fin_1"));
+        new CatManager("fin", 1, cata);
+        // new CatManager("fin", 2, cata);// 测试防重复
     }
 
     public static void add_info(String key, int value) {
