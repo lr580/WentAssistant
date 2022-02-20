@@ -4,8 +4,6 @@ import java.awt.event.*;
 import base.DbLoad;
 import base.ModLoad;
 import category.ui.CatManager;
-// import category.core.CatTree;
-// import category.core.Cata;
 
 public class EvSupply {// 事件监听器提供
     public static void openCataCtrl() {

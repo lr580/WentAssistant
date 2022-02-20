@@ -87,7 +87,6 @@ public class CatManager extends JDialog {
                 // DbCtrl.save_diary();
 
                 DbLoad.cata = new CatTree(Cata.query(DbLoad.getTypex()));
-                // ModLoad.exec();
                 ModLoad.evalctrl.eval();
 
                 DbCtrl.write_diary("关闭类别管理");

@@ -7,7 +7,6 @@ import ui.DbTable;
 public class ModLoad {// 各模块加载并挂入当前选择模块
     public static Set<String> modnames = new HashSet<>();
     public static String nowModule = "default";
-    // public static String hanging_cmd = "";// 将被执行指令悬挂
     public static EvalCtrl evalctrl = new EvalCtrl();
 
     public static void loadModule() {
@@ -26,15 +25,4 @@ public class ModLoad {// 各模块加载并挂入当前选择模块
 
         DbTable.that.render("select * from " + DbLoad.getTypex());
     }
-
-    // public static void exec() {
-    // if (hanging_cmd.length() != 0) {
-    // eval
-    // }
-    // hanging_cmd = "";
-    // if (evalctrl != null) {
-    // evalctrl.eval();
-    // }
-    // evalctrl = null;
-    // }
 }

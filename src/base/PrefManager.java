@@ -25,7 +25,6 @@ public class PrefManager {
         while (m.find()) {
             String key = s.substring(m.start(1), m.end(1));
             String value = s.substring(m.start(2), m.end(2));
-            // System.out.println(key + "," + value);
             pref.put(key, value);
         }
     }
@@ -43,12 +42,6 @@ public class PrefManager {
     public static void init_setting() {
         FileHelper.write(PrefManager.initPref, path);
         load_setting();
-    }
-
-    public static void main(String[] args) {// 测试
-        // load_setting();
-        // write_setting();
-        init_setting();
     }
 
     // public static String query(String key) {// 完全没必要

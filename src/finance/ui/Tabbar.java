@@ -64,16 +64,11 @@ public class Tabbar {
     private static ActionListener ev_catactrl = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             EvSupply.openCataCtrl();
-            ModLoad.evalctrl.cmd = new Eval() {
+            ModLoad.evalctrl.cmd = new Eval() {// 像是在做闭包，强行异步改同步
                 public void eval() {
                     Load.update_catlist();
                 }
             };
-            // ModLoad.evalctrl = new EvalCtrl() {// 像是在做闭包，强行异步改同步
-            // public void eval() {
-            // Load.update_catlist();
-            // }
-            // };
         }
     };
 }

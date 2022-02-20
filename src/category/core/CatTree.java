@@ -254,14 +254,13 @@ public class CatTree {
         ans.clear();
         while (it.hasNext()) {
             Pair nd = it.next();
-            // System.out.println(nd.y);
             ans.add(p.get(nd.y).name);
         }
     }
 
-    // public static void main(String[] args) {// 测试用例
-    // CatTree t = new CatTree(FileHelper.read("a.txt"));
-    // System.out.println(t.stat_sum());
-    // System.out.println(t.getSubtrees(17));
-    // }
+    public void cntNode(int u, int dx) {
+        Node nd = p.get(u);
+        nd.w += dx;
+        p.set(u, nd);
+    }
 }
