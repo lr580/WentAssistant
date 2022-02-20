@@ -2,8 +2,14 @@ package ui;
 
 import java.awt.event.*;
 import javax.swing.*;
+import plugin.SwingHelper;
 
 public class RootMenu extends JMenuBar {
+    private ActionListener e_waiting = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            SwingHelper.syso("敬请期待 ovo");
+        }
+    };
     public RootMenu(Root frame) {
         JMenu file = new JMenu("文件");
         add(file);
@@ -15,6 +21,14 @@ public class RootMenu extends JMenuBar {
         JMenuItem undo = new JMenuItem("撤销");
         undo.addActionListener(TbGlobal.e_undo);
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK));
+
+        JMenuItem redo = new JMenuItem("重做");
+        redo.addActionListener(TbGlobal.e_redo);
+        redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_DOWN_MASK));
+
+        JMenuItem undoall = new JMenuItem("撤销全部");
+        undoall.addActionListener(TbGlobal.e_undoall);
+        undoall.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
 
         JMenuItem backup = new JMenuItem("添加到备份");
         backup.addActionListener(TbGlobal.e_backup);
@@ -46,6 +60,8 @@ public class RootMenu extends JMenuBar {
 
         file.add(save);
         file.add(undo);
+        file.add(redo);
+        file.add(undoall);
         file.addSeparator();
         file.add(backup);
         file.add(frombackup);
@@ -57,6 +73,37 @@ public class RootMenu extends JMenuBar {
 
         JMenu setting = new JMenu("设置");
         add(setting);
+
+        JMenuItem preference = new JMenuItem("偏好设置");
+        preference.addActionListener(TbGlobal.e_preference);
+        preference.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, KeyEvent.CTRL_DOWN_MASK));
+
+        JMenu switchs = new JMenu("模块切换");
+
+        JMenuItem mod_f = new JMenuItem("财政官");
+        mod_f.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+
+        JMenuItem mod_i = new JMenuItem("冰川");
+        mod_i.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        mod_i.addActionListener(e_waiting);
+
+        JMenuItem mod_d = new JMenuItem("QT频道");
+        mod_d.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        mod_d.addActionListener(e_waiting);
+
+        JMenuItem mod_t = new JMenuItem("计时任务");
+        mod_t.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        mod_t.addActionListener(e_waiting);
+
+        JMenuItem mod_m = new JMenuItem("备忘录");
+        mod_m.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        mod_m.addActionListener(e_waiting);
+
+        switchs.add(mod_f);
+        switchs.add(mod_i);
+        switchs.add(mod_d);
+        switchs.add(mod_t);
+        switchs.add(mod_m);
 
         JMenuItem reset_psw = new JMenuItem("修改登录密码");
         reset_psw.addActionListener(new ActionListener() {
@@ -74,6 +121,10 @@ public class RootMenu extends JMenuBar {
         });
         reset_mysql.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
 
+        setting.add(preference);
+        setting.addSeparator();
+        setting.add(switchs);
+        setting.addSeparator();
         setting.add(reset_mysql);
         setting.add(reset_psw);
 
@@ -83,7 +134,7 @@ public class RootMenu extends JMenuBar {
         JMenuItem helpme = new JMenuItem("帮助");
         helpme.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "请查看开发文档");
+                JOptionPane.showMessageDialog(null, "请查看使用手册");
             }
         });
         helpme.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK));
@@ -91,7 +142,7 @@ public class RootMenu extends JMenuBar {
         JMenuItem about = new JMenuItem("关于");
         about.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "版本:V1.0");
+                JOptionPane.showMessageDialog(null, "版本:Beta2.0");
             }
         });
         about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));

@@ -11,6 +11,7 @@ import java.io.*;
 public class TbGlobal extends JPanel {// tabbar global
     public static DbTable jt = null;
     public static JComboBox<String> jc = new JComboBox<>(DbLoader.backups);
+    // public static JComboBox<String> jcro = new JComboBox<>();//暂不考虑实现
     private static javax.swing.filechooser.FileFilter flits = new FileNameExtensionFilter("数据库文件(.sql)", "sql");
     public static ActionListener e_save = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -29,6 +30,16 @@ public class TbGlobal extends JPanel {// tabbar global
                 }
                 DbLoader.undo();
             }
+        }
+    };
+
+    public static ActionListener e_redo = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        }
+    };
+
+    public static ActionListener e_undoall = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
         }
     };
 
@@ -150,6 +161,12 @@ public class TbGlobal extends JPanel {// tabbar global
         }
     };
 
+    public static ActionListener e_preference = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            new Preference();
+        }
+    };
+
     public TbGlobal(DbTable jt) {
         TbGlobal.jt = jt;
         setLayout(new GridLayout(2, 1, 5, 5));
@@ -162,6 +179,13 @@ public class TbGlobal extends JPanel {// tabbar global
         JButton b_undo = new JButton("撤销");
         b_undo.addActionListener(e_undo);
         uf.add(b_undo);
+        JButton b_redo = new JButton("重做");
+        uf.add(b_redo);
+        JButton b_undoall = new JButton("撤销全部");
+        uf.add(b_undoall);
+
+        // uf.add(new FsLabel("历史操作:"));
+        // uf.add(jcro); //因为命名困难(太长了)所以不打算列表展示(反正展示了也没用)
 
         JButton b_importall = new JButton("导入数据库");
         b_importall.addActionListener(e_importall);
@@ -177,6 +201,10 @@ public class TbGlobal extends JPanel {// tabbar global
 
         JPanel df = new JPanel(new FlowLayout(1, 5, 5));
         add(df);
+
+        JButton b_preference = new JButton("设置");
+        b_preference.addActionListener(e_preference);
+        df.add(b_preference);
 
         if (jc.getItemCount() > 0) {
             jc.setSelectedIndex(0);
