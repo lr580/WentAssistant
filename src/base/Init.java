@@ -21,6 +21,7 @@ public class Init {
     private static File f_psw = new File("data/user.txt");
     private static File f_vali = new File("data/validate.txt");
     private static File f_set = new File("data/settings.txt");
+    private static File f_pref = new File("data/preference.txt");
     public static final int psw_pos = 5;// f_set密码下标
 
     private static boolean create_if_not_exist() {// 创建文件
@@ -40,6 +41,9 @@ public class Init {
         if (!f_set.exists()) {
             FileHelper.touch(f_set);// 这个残缺不影响密码检验
             // init_db_settings();
+        }
+        if (!f_pref.exists()) {
+            FileHelper.write(PrefManager.initPref, f_pref);
         }
         return integrity;
     }

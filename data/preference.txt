@@ -1,0 +1,3 @@
+nowModule=fin
+isRecordDiary=1
+isEncryptDiary=0

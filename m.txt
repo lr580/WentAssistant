@@ -1,8 +1,0 @@
-create table if not exists `f_1` (
-    `id` int not null auto_increment,
-    `value` decimal(16,2) not null,
-    `type` int not null,
-    `date` int not null,
-    `comment` varchar(100),
-    primary key(`id`)
-) engine=InnoDB default charset=utf8;

@@ -67,6 +67,7 @@ public class CatManager extends JDialog {
         setSize(360, 380);
         setVisible(true);
 
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 if (saved == 0) {
@@ -78,10 +79,11 @@ public class CatManager extends JDialog {
                     } else if (i == JOptionPane.CLOSED_OPTION) {// 叉掉
                         return;
                     } else if (i == JOptionPane.CANCEL_OPTION) {// 不保存
-                        return;
+                        // return;
                     }
                 }
-                DbCtrl.save_diary();
+                // DbCtrl.save_diary();
+                DbCtrl.write_diary("关闭类别管理");
                 dispose();
             }
         });
