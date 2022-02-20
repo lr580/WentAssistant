@@ -1,19 +1,24 @@
 package base;
 
-// import category.core.CatTree;
-// import category.ui.CatManager;
+import category.core.CatTree;
 import category.core.Cata;
 import mysql.*;
 import java.sql.*;
 import java.util.*;
 // import plugin.SwingHelper;
 // import plugin.FileHelper;
+// import category.ui.CatManager;
 
 public class DbLoad {
     private static PreparedStatement info_adder = null;
     private static PreparedStatement info_changer = null;
     public static int saved = 1;
+    public static int t_main = 0;// 主表
+    public static int t_temp = 0;// 临时表
+    public static int top = 0;
     public static Map<String, String> table_creator = new HashMap<>();
+    public static CatTree cata = null;
+    public static Vector<String> cat_list = new Vector<>();
 
     public static void init() {// 检查是否需要初始化，是则自动执行
         String cmd0 = "create table if not exists `infos` (`id` int not null auto_increment, `key` varchar(20) not null, `value` int not null, primary key(`id`), unique(`key`)) engine=InnoDB default charset=utf8;";
@@ -91,5 +96,13 @@ public class DbLoad {
             // SwingHelper.syso(cmd);
             Ctrl.run(cmd);
         }
+    }
+
+    public static void load_table(String type) {
+        t_main = get_info(type + "_main");
+        t_temp = get_info(type + "_temp");
+        top = get_info(type + "_top");
+        saved = get_info(type + "_saved");
+        cata = new CatTree(Cata.query(type + "_" + t_temp));
     }
 }

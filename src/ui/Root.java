@@ -14,10 +14,11 @@ public class Root extends JFrame {
         that = this;// 方便其他窗体类操作Root类
         setIconImage(new ImageIcon("icon.png").getImage());
         setJMenuBar(new RootMenu(this));
-        ModLoad.loadModule();
         check_db_setting();
         getContentPane().add(new Page());
         check_con();
+        ModLoad.loadModule();
+        
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setSize(800, 600);
         setVisible(true);
