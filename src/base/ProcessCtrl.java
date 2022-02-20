@@ -14,7 +14,6 @@ public class ProcessCtrl {// 撤销、重做管理
     public static int m = 0;// 数据域长度
     public static String cname[] = null;// 数据库列名
     public static int ty[] = null;// 数据类型
-
     // 3int 4decimal 12varchar
 
     public static void init() {

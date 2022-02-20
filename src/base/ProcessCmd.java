@@ -16,20 +16,20 @@ public class ProcessCmd {// 数据库增删改指令
         this.to = to;
     }
 
-    public void add() {// 加入
+    private void add() {// 加入
         String cmd = "insert into " + ProcessCtrl.tbname + " values" + ProcessCtrl.getString(from);
         System.out.println(cmd);
         Ctrl.run(cmd);
     }
 
-    public void delete() {// 删除
+    private void delete() {// 删除
         Integer idx = (Integer) from[0];
         String cmd = "delete from " + ProcessCtrl.tbname + " where id = " + idx;
         System.out.println(cmd);
         Ctrl.run(cmd);
     }
 
-    public void update(Object[] t) {
+    private void update(Object[] t) {
         String cmd = "update " + ProcessCtrl.tbname + " set ";
         for (int i = 1; i < ProcessCtrl.m; ++i) {
             cmd += (i == 1 ? "" : ",");
@@ -62,11 +62,4 @@ public class ProcessCmd {// 数据库增删改指令
             add();
         }
     }
-
-    // public static void main(String[] args) {
-    // Integer x = 1;
-    // Double y = 1.1;
-    // String z = "22";
-    // System.out.println(z.toString());
-    // }
 }
