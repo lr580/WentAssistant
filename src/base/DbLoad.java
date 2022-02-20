@@ -5,9 +5,6 @@ import category.core.Cata;
 import mysql.*;
 import java.sql.*;
 import java.util.*;
-// import plugin.SwingHelper;
-// import plugin.FileHelper;
-// import category.ui.CatManager;
 
 public class DbLoad {
     private static PreparedStatement info_adder = null;
@@ -15,10 +12,10 @@ public class DbLoad {
     public static int saved = 1;
     public static int t_main = 0;// 主表
     public static int t_temp = 0;// 临时表
-    public static int top = 0;
+    public static int top = 0;// 最大表编号
+    public static int cnt = 0;// 最大记录编号
     public static Map<String, String> table_creator = new HashMap<>();
     public static CatTree cata = null;
-    public static Vector<String> cat_list = new Vector<>();
 
     public static void init() {// 检查是否需要初始化，是则自动执行
         String cmd0 = "create table if not exists `infos` (`id` int not null auto_increment, `key` varchar(20) not null, `value` int not null, primary key(`id`), unique(`key`)) engine=InnoDB default charset=utf8;";
@@ -37,13 +34,6 @@ public class DbLoad {
         while (it.hasNext()) {
             init_table(it.next());
         }
-        // 以下都测试用
-        // Cata.update("fin_2", Cata.query("fin_1"));
-        // Cata.update("fin_1", FileHelper.read("a.txt"));
-        // Cata.delete("fin_2");// 测试用
-        // CatTree cata = new CatTree(Cata.query("fin_1"));
-        // new CatManager("fin", 1, cata);
-        // new CatManager("fin", 2, cata);// 测试防重复
     }
 
     public static void add_info(String key, int value) {
@@ -67,13 +57,13 @@ public class DbLoad {
     }
 
     public static int get_info(String key) {
-        String cmd1 = "select `key`, `value` from info where `key`='" + key + "';";
+        String cmd1 = "select `key`, `value` from `infos` where `key`='" + key + "';";
         ResultSet res1 = Ctrl.query(cmd1);
         return Ctrl.getv(res1, "key", key, "value");
     }
 
     public static void del_info(String key) {
-        String cmd = "delete from `info` where `key` = '" + key + "';";
+        String cmd = "delete from `infos` where `key` = '" + key + "';";
         Ctrl.update(cmd);
     }
 
@@ -93,7 +83,6 @@ public class DbLoad {
         for (int i = 1; i <= 2; ++i) {
             String cmd = cmd_crtb;
             cmd = cmd.replace("#", Integer.toString(i));
-            // SwingHelper.syso(cmd);
             Ctrl.run(cmd);
         }
     }
@@ -103,6 +92,11 @@ public class DbLoad {
         t_temp = get_info(type + "_temp");
         top = get_info(type + "_top");
         saved = get_info(type + "_saved");
+        cnt = get_info(getTypex());
         cata = new CatTree(Cata.query(type + "_" + t_temp));
+    }
+
+    public static String getTypex() {
+        return ModLoad.nowModule + "_" + t_temp;
     }
 }

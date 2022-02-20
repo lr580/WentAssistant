@@ -11,7 +11,7 @@ import plugin.FileHelper;
 public class PrefManager {
     private static String path = "data/preference.txt";
     public static Map<String, String> pref = new TreeMap<>();
-    public static String initPref = "nowModule=fin\nisRecordDiary=1\nisEncryptDiary=0\n";// 初始配置文件(默认)
+    public static String initPref = "nowModule=fin\nisRecordDiary=1\nisEncryptDiary=0\nisClearAfterAdd=1\nisFillAfterSelect=1\n";// 初始配置文件(默认)
 
     static {
         load_setting();
@@ -45,10 +45,11 @@ public class PrefManager {
         load_setting();
     }
 
-    // public static void main(String[] args) {// 测试
-    // load_setting();
-    // write_setting();
-    // }
+    public static void main(String[] args) {// 测试
+        // load_setting();
+        // write_setting();
+        init_setting();
+    }
 
     // public static String query(String key) {// 完全没必要
     // return pref.get(key);

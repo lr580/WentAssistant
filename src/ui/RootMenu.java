@@ -81,22 +81,26 @@ public class RootMenu extends JMenuBar {
 
         JMenuItem preference = new JMenuItem("偏好设置");
         preference.addActionListener(TbGlobal.e_preference);
-        preference.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, KeyEvent.CTRL_DOWN_MASK));
+        preference.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK));// 若ctrl+,不知为何用过后会失灵
 
         // JMenuItem mod_i = new JMenuItem("冰川");
-        // mod_i.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        // mod_i.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
+        // KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
         // mod_i.addActionListener(e_waiting);
 
         // JMenuItem mod_d = new JMenuItem("QT频道");
-        // mod_d.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        // mod_d.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+        // KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
         // mod_d.addActionListener(e_waiting);
 
         // JMenuItem mod_t = new JMenuItem("计时任务");
-        // mod_t.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        // mod_t.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
+        // KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
         // mod_t.addActionListener(e_waiting);
 
         // JMenuItem mod_m = new JMenuItem("备忘录");
-        // mod_m.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        // mod_m.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
+        // KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
         // mod_m.addActionListener(e_waiting);
 
         // switchs.add(mod_i);

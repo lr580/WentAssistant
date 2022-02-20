@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.TreeSet;
+import java.util.Vector;
 import java.util.HashMap;
 import plugin.Pair;
 // import plugin.FileHelper;
@@ -239,6 +240,23 @@ public class CatTree {
             sb.append(it.next());
         }
         return sb.toString();
+    }
+
+    public void getSortedNode(Vector<String> ans) {// 不屏蔽根节点
+        TreeSet<Pair> t = new TreeSet<>();
+        for (int i = 1; i <= top; ++i) {
+            Node nd = p.get(i);
+            if (nd != null) {
+                t.add(new Pair(nd.w, i));
+            }
+        }
+        Iterator<Pair> it = t.iterator();
+        ans.clear();
+        while (it.hasNext()) {
+            Pair nd = it.next();
+            // System.out.println(nd.y);
+            ans.add(p.get(nd.y).name);
+        }
     }
 
     // public static void main(String[] args) {// 测试用例

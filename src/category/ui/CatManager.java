@@ -9,6 +9,8 @@ import java.awt.event.*;
 import ui.Root;
 import javax.swing.tree.*;
 import base.DbCtrl;
+import base.DbLoad;
+import base.ModLoad;
 
 public class CatManager extends JDialog {
     private static boolean isSpawned = false;// 是否有多个窗体
@@ -83,7 +85,13 @@ public class CatManager extends JDialog {
                     }
                 }
                 // DbCtrl.save_diary();
+
+                DbLoad.cata = new CatTree(Cata.query(DbLoad.getTypex()));
+                // ModLoad.exec();
+                ModLoad.evalctrl.eval();
+
                 DbCtrl.write_diary("关闭类别管理");
+                isSpawned = false;
                 dispose();
             }
         });

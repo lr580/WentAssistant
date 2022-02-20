@@ -1,3 +1,5 @@
 nowModule=fin
 isRecordDiary=1
 isEncryptDiary=0
+isClearAfterAdd=1
+isFillAfterSelect=1

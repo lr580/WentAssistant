@@ -1,22 +1,23 @@
 package finance.ui;
 
 import javax.swing.*;
-
+import base.ModLoad;
 import finance.core.Load;
-// import category.core.CatTree;
-import plugin.FsLabel;
-
 import java.awt.*;
-// import java.util.Vector;
-
+import java.awt.event.*;
+import ui.EvSupply;
 import ui.TbMain;
+// import plugin.EvalCtrl;
+import plugin.Eval;
+import plugin.FsLabel;
 
 public class Tabbar {
     private static JTextField i_money = new JTextField(4);
     private static JTextField i_date = new JTextField(5);
-    
-    private static JComboBox<String> i_type = new JComboBox<>(Load.cat_list);
+    public static JComboBox<String> i_type = new JComboBox<>(Load.cat_list);
     private static JTextField i_comment = new JTextField(12);
+    private static JTextField i_cmd = new JTextField(25);
+    private static JCheckBox i_multi = new JCheckBox("多项录入", true);
 
     public static void InitTabbar() {
         TbMain page = TbMain.that;
@@ -35,8 +36,44 @@ public class Tabbar {
         p_uf.add(i_type);
         p_uf.add(new FsLabel("备注:"));
         p_uf.add(i_comment);
+        p_uf.add(i_multi);
+
+        JButton b_catactrl = new JButton("类别管理");
+        b_catactrl.addActionListener(ev_catactrl);
+        p_uf.add(b_catactrl);
 
         JButton b_add = new JButton("添加");
         p_df.add(b_add);
+
+        JButton b_update = new JButton("编辑");
+        p_df.add(b_update);
+
+        JButton b_delete = new JButton("删除");
+        p_df.add(b_delete);
+
+        p_df.add(new FsLabel("命令:"));
+        p_df.add(i_cmd);
+
+        JButton b_search = new JButton("搜索");
+        p_df.add(b_search);
+
+        JButton b_stat = new JButton("统计");
+        p_df.add(b_stat);
     }
+
+    private static ActionListener ev_catactrl = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            EvSupply.openCataCtrl();
+            ModLoad.evalctrl.cmd = new Eval() {
+                public void eval() {
+                    Load.update_catlist();
+                }
+            };
+            // ModLoad.evalctrl = new EvalCtrl() {// 像是在做闭包，强行异步改同步
+            // public void eval() {
+            // Load.update_catlist();
+            // }
+            // };
+        }
+    };
 }
