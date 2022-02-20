@@ -196,25 +196,54 @@ public class CatTree {
         p.set(u, null);
     }
 
+    private ArrayList<Integer> offspr = null;
+
+    public ArrayList<Integer> getSons(int u) {// 返回链式前向星遍历结果
+        ArrayList<Integer> res = new ArrayList<>();
+        for (int i = hd.get(u); i != 0; i = e.get(i).next) {
+            int v = e.get(i).to;
+            if (v == 0 || v == p.get(u).father) {
+                continue;
+            }
+            res.add(v);
+        }
+        return res;
+    }
+
+    private void dfs_offspr(int u) {
+        Iterator<Integer> it = getSons(u).iterator();
+        while (it.hasNext()) {
+            int v = it.next();
+            offspr.add(v);
+            dfs_offspr(v);
+        }
+    }
+
+    public ArrayList<Integer> getSubtree(int u) {// 获得u子树
+        offspr = new ArrayList<>();
+        offspr.add(u);
+        dfs_offspr(u);
+        return offspr;
+    }
+
+    public String getSubtrees(int u) {
+        Iterator<Integer> it = getSubtree(u).iterator();
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        while (it.hasNext()) {
+            if (first) {
+                first = false;
+            } else {
+                sb.append(",");
+            }
+            sb.append(it.next());
+        }
+        return sb.toString();
+    }
+
     // public static void main(String[] args) {// 测试用例
-    // String tx = FileHelper.read("a.txt");
-    // System.out.println(tx);
-    // CatTree tr = new CatTree(tx);
-    // tr.addNode("未知", 3, 4);
-    // tr.addNode("已知", 2, 20);
-    // tr.editNode(1, "total", 0, 100);
-    // tr.deleteNode(2);
-    // tr.deleteNode(3);
-    // tr.deleteNode(5);
-    // System.out.println(tr.export());
-    // System.out.println(tr.stat_sum());
-    // System.out.println(tr.isAncestorOf(1, 1));
-    // System.out.println(tr.isAncestorOf(1, 5));
-    // System.out.println(tr.isAncestorOf(2, 5));
-    // System.out.println(tr.isAncestorOf(2, 3));
-    // System.out.println(tr.isAncestorOf(3, 5));
-    // System.out.println(tr.isAncestorOf(5, 1));
-    // System.out.println(tr.find("A类"));
-    // System.out.println(tr.find("还好"));
+    // CatTree t = new CatTree(FileHelper.read("a.txt"));
+    // System.out.println(t.stat_sum());
+    // System.out.println(t.getSubtrees(17));
     // }
 }

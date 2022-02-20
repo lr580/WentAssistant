@@ -1,19 +1,21 @@
 package base;
 
-import java.sql.*;
-
 // import category.core.CatTree;
 // import category.ui.CatManager;
 import category.core.Cata;
 import mysql.*;
+import java.sql.*;
+import java.util.*;
+// import plugin.SwingHelper;
 // import plugin.FileHelper;
 
 public class DbLoad {
     private static PreparedStatement info_adder = null;
     private static PreparedStatement info_changer = null;
     public static int saved = 1;
+    public static Map<String, String> table_creator = new HashMap<>();
 
-    public static void checkinit() {// 检查是否需要初始化，是则自动执行
+    public static void init() {// 检查是否需要初始化，是则自动执行
         String cmd0 = "create table if not exists `infos` (`id` int not null auto_increment, `key` varchar(20) not null, `value` int not null, primary key(`id`), unique(`key`)) engine=InnoDB default charset=utf8;";
         Ctrl.run(cmd0);
 
@@ -26,11 +28,13 @@ public class DbLoad {
         String ccmd2 = "update `infos` set `value`= ? where `key` = ?";
         info_changer = Ctrl.pre(ccmd2);
 
-        init_table("fin");
+        Iterator<String> it = ModLoad.modnames.iterator();
+        while (it.hasNext()) {
+            init_table(it.next());
+        }
         // 以下都测试用
         // Cata.update("fin_2", Cata.query("fin_1"));
         // Cata.update("fin_1", FileHelper.read("a.txt"));
-        // Cata.update("fin_1", "4 5\n1 0 0 总\n2 5 1 A类\n3 1 1 B类\n5 10 3 杂项");// 测试用
         // Cata.delete("fin_2");// 测试用
         // CatTree cata = new CatTree(Cata.query("fin_1"));
         // new CatManager("fin", 1, cata);
@@ -80,5 +84,12 @@ public class DbLoad {
         add_info(type + "_temp", 2);
         Cata.add(type + "_1");
         Cata.add(type + "_2");
+        String cmd_crtb = table_creator.get(type);
+        for (int i = 1; i <= 2; ++i) {
+            String cmd = cmd_crtb;
+            cmd = cmd.replace("#", Integer.toString(i));
+            // SwingHelper.syso(cmd);
+            Ctrl.run(cmd);
+        }
     }
 }

@@ -14,6 +14,7 @@ public class Root extends JFrame {
         that = this;// 方便其他窗体类操作Root类
         setIconImage(new ImageIcon("icon.png").getImage());
         setJMenuBar(new RootMenu(this));
+        ModLoad.loadModule();
         check_db_setting();
         getContentPane().add(new Page());
         check_con();
@@ -65,8 +66,8 @@ public class Root extends JFrame {
             JOptionPane.showMessageDialog(null, Link.err_msg);
             new SetDatabase(this);
         }
-        DbLoader.checkinit();
-        DbLoad.checkinit();
+        DbLoader.checkinit();// 将来会删除
+        DbLoad.init();
     }
 
     public static void updateTitle() {

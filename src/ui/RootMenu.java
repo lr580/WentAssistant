@@ -5,12 +5,16 @@ import javax.swing.*;
 import plugin.SwingHelper;
 
 public class RootMenu extends JMenuBar {
-    private ActionListener e_waiting = new ActionListener() {
+    public static RootMenu that = null;
+    public JMenu switchs = new JMenu("模块切换");
+    public ActionListener e_waiting = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             SwingHelper.syso("敬请期待 ovo");
         }
     };
+
     public RootMenu(Root frame) {
+        that = this;
         JMenu file = new JMenu("文件");
         add(file);
 
@@ -28,7 +32,8 @@ public class RootMenu extends JMenuBar {
 
         JMenuItem undoall = new JMenuItem("撤销全部");
         undoall.addActionListener(TbGlobal.e_undoall);
-        undoall.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
+        undoall.setAccelerator(
+                KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
 
         JMenuItem backup = new JMenuItem("添加到备份");
         backup.addActionListener(TbGlobal.e_backup);
@@ -78,32 +83,26 @@ public class RootMenu extends JMenuBar {
         preference.addActionListener(TbGlobal.e_preference);
         preference.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, KeyEvent.CTRL_DOWN_MASK));
 
-        JMenu switchs = new JMenu("模块切换");
+        // JMenuItem mod_i = new JMenuItem("冰川");
+        // mod_i.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        // mod_i.addActionListener(e_waiting);
 
-        JMenuItem mod_f = new JMenuItem("财政官");
-        mod_f.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        // JMenuItem mod_d = new JMenuItem("QT频道");
+        // mod_d.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        // mod_d.addActionListener(e_waiting);
 
-        JMenuItem mod_i = new JMenuItem("冰川");
-        mod_i.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
-        mod_i.addActionListener(e_waiting);
+        // JMenuItem mod_t = new JMenuItem("计时任务");
+        // mod_t.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        // mod_t.addActionListener(e_waiting);
 
-        JMenuItem mod_d = new JMenuItem("QT频道");
-        mod_d.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
-        mod_d.addActionListener(e_waiting);
+        // JMenuItem mod_m = new JMenuItem("备忘录");
+        // mod_m.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
+        // mod_m.addActionListener(e_waiting);
 
-        JMenuItem mod_t = new JMenuItem("计时任务");
-        mod_t.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
-        mod_t.addActionListener(e_waiting);
-
-        JMenuItem mod_m = new JMenuItem("备忘录");
-        mod_m.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK));
-        mod_m.addActionListener(e_waiting);
-
-        switchs.add(mod_f);
-        switchs.add(mod_i);
-        switchs.add(mod_d);
-        switchs.add(mod_t);
-        switchs.add(mod_m);
+        // switchs.add(mod_i);
+        // switchs.add(mod_d);
+        // switchs.add(mod_t);
+        // switchs.add(mod_m);
 
         JMenuItem reset_psw = new JMenuItem("修改登录密码");
         reset_psw.addActionListener(new ActionListener() {
