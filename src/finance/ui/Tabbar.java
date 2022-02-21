@@ -64,7 +64,12 @@ public class Tabbar {
         JButton b_stat = new JButton("统计");
         p_df.add(b_stat);
 
-        activate();// 各种事件激活
+        b_add.addActionListener(ev_add);
+        b_update.addActionListener(ev_update);
+        b_delete.addActionListener(ev_delete);
+        b_search.addActionListener(ev_search);
+        b_stat.addActionListener(ev_stat);
+        activate();// 各种其他事件激活
     }
 
     private static void activate() {
@@ -87,6 +92,31 @@ public class Tabbar {
                     Load.update_catlist();
                 }
             };
+        }
+    };
+
+    private static ActionListener ev_add = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        }
+    };
+
+    private static ActionListener ev_update = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        }
+    };
+
+    private static ActionListener ev_delete = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        }
+    };
+
+    private static ActionListener ev_search = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        }
+    };
+
+    private static ActionListener ev_stat = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
         }
     };
 }

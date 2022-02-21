@@ -3,9 +3,10 @@ package ui;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
-
 import base.PrefManager;
 import mysql.Ctrl;
+import plugin.SwingHelper;
+
 import java.awt.Font;
 import java.sql.*;
 import java.util.*;
@@ -18,9 +19,12 @@ public class DbTable extends JTable {
     public static int table_idx = 0;// 当前表格编号
     public static TableBlender blender = new TableBlender() {
     };
-    // public static TableFetchConvertor convertor = new TableFetchConvertor() {
-    // };
     public static InputFiller filler = new InputFiller() {
+    };
+    private static int n = 0;// 列数
+    private static int ty[] = null;// 各列数据类型
+    public static int tb_state = 0; // 表格状态(各模块自定义)
+    public static TableUpdater updater = new TableUpdater() {
     };
 
     public DbTable() {
@@ -45,11 +49,9 @@ public class DbTable extends JTable {
                 }
                 int row = rows[rows.length - 1];
                 Object s[] = new Object[tm.getColumnCount()];
-                // 将当前选中的最下一行填入编辑框(待做)
                 for (int i = 0; i < s.length; ++i) {
                     s[i] = getValueAt(row, i);
                 }
-                // convertor.convert(s);// 感觉好多余，不如fill一并convert
                 if (PrefManager.pref.get("isFillAfterSelect").equals("1")) {
                     filler.fill(s);// 会触发两次，原因未知
                 }
@@ -62,8 +64,8 @@ public class DbTable extends JTable {
     private void render(ResultSet res) {
         try {
             ResultSetMetaData reso = res.getMetaData();
-            int n = reso.getColumnCount();
-            int ty[] = new int[n + 1];
+            n = reso.getColumnCount();
+            ty = new int[n + 1];
             tm.setColumnCount(0);
             tm.setRowCount(0);
             for (int i = 1; i <= n; ++i) {
@@ -116,5 +118,24 @@ public class DbTable extends JTable {
         for (int i = rows.length - 1; i >= 0; --i) {
             that.tm.removeRow(rows[i]);
         }
+    }
+
+    public static void delRow(int idx) {
+        that.tm.removeRow(findRow(idx));
+    }
+
+    public static int findRow(int idx) {
+        for (int i = 1, ie = that.tm.getRowCount(); i <= ie; ++i) {
+            int v = (Integer) that.tm.getValueAt(i, 1);
+            if (v == idx) {
+                return v;
+            }
+        }
+        SwingHelper.syso("找不到编号为" + idx + "的列");
+        return -1;
+    }
+
+    public static void updateRow(int idx, Object[] row) {// 假设已经blend了
+        updRow(findRow(idx), row);
     }
 }
