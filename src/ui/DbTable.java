@@ -14,6 +14,27 @@ public class DbTable extends JTable {
     private String last_cmd = "";// 上一次渲染的语句
     public static DbTable that = null;
     public static int table_idx = 0;// 当前表格编号
+    public static TableBlender default_blender = new TableBlender() {
+        public Object[] blend(ResultSet res, int n, int[] ty) {
+            Object[] row = new Object[n];
+            try {
+                for (int i = 1; i <= n; ++i) {
+                    if (ty[i] == 4) {// int
+                        row[i - 1] = (Integer) res.getInt(i);
+                    } else if (ty[i] == 3) {// decimal
+                        row[i - 1] = (Double) res.getDouble(i);
+                    } else {// varchar(ty[i]==12)
+                        row[i - 1] = res.getString(i);
+                    }
+                }
+            } catch (Exception e) {
+                Ctrl.raised(e);
+                return null;
+            }
+            return row;
+        }
+    };
+    public static TableBlender blender = default_blender;
 
     public DbTable() {
         // init_h();
@@ -62,20 +83,7 @@ public class DbTable extends JTable {
                 ty[i] = reso.getColumnType(i);// 不判断直接全部getString也行
             }
             while (res.next()) {
-                Object row[] = new Object[n];
-                for (int i = 1; i <= n; ++i) {
-                    // System.out.println(i + "_" + ty[i]);
-                    if (ty[i] == 4) {// int
-                        // row[i - 1] = Integer.toString(res.getInt(i));
-                        row[i - 1] = (Integer) res.getInt(i);
-                    } else if (ty[i] == 3) {// decimal
-                        row[i - 1] = (Double) res.getDouble(i);
-                    } else {// varchar(ty[i]==12)
-                        // row[i - 1] = res.getString(i);
-                        row[i - 1] = res.getString(i);
-                    }
-                }
-                tm.addRow(row);
+                tm.addRow(blender.blend(res, n, ty));// 根据模块需求动态改变
             }
         } catch (Exception e) {
             Ctrl.raised(e);

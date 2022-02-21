@@ -7,16 +7,15 @@ import java.awt.*;
 import java.awt.event.*;
 import ui.EvSupply;
 import ui.TbMain;
-// import plugin.EvalCtrl;
 import plugin.Eval;
 import plugin.FsLabel;
 
 public class Tabbar {
-    private static JTextField i_money = new JTextField(4);
-    private static JTextField i_date = new JTextField(5);
+    public static JTextField i_money = new JTextField(4);
+    public static JTextField i_date = new JTextField(5);
     public static JComboBox<String> i_type = new JComboBox<>(Load.cat_list);
-    private static JTextField i_comment = new JTextField(12);
-    private static JTextField i_cmd = new JTextField(25);
+    public static JTextField i_comment = new JTextField(12);
+    public static JTextField i_cmd = new JTextField(25);
     private static JCheckBox i_multi = new JCheckBox("多项录入", true);
 
     public static void InitTabbar() {
