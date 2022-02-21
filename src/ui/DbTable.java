@@ -3,6 +3,8 @@ package ui;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+
+import base.PrefManager;
 import mysql.Ctrl;
 import java.awt.Font;
 import java.sql.*;
@@ -14,30 +16,14 @@ public class DbTable extends JTable {
     private String last_cmd = "";// 上一次渲染的语句
     public static DbTable that = null;
     public static int table_idx = 0;// 当前表格编号
-    public static TableBlender default_blender = new TableBlender() {
-        public Object[] blend(ResultSet res, int n, int[] ty) {
-            Object[] row = new Object[n];
-            try {
-                for (int i = 1; i <= n; ++i) {
-                    if (ty[i] == 4) {// int
-                        row[i - 1] = (Integer) res.getInt(i);
-                    } else if (ty[i] == 3) {// decimal
-                        row[i - 1] = (Double) res.getDouble(i);
-                    } else {// varchar(ty[i]==12)
-                        row[i - 1] = res.getString(i);
-                    }
-                }
-            } catch (Exception e) {
-                Ctrl.raised(e);
-                return null;
-            }
-            return row;
-        }
+    public static TableBlender blender = new TableBlender() {
     };
-    public static TableBlender blender = default_blender;
+    // public static TableFetchConvertor convertor = new TableFetchConvertor() {
+    // };
+    public static InputFiller filler = new InputFiller() {
+    };
 
     public DbTable() {
-        // init_h();
         that = this;
         setModel(tm);
         DefaultTableCellRenderer crr = new DefaultTableCellRenderer();
@@ -63,7 +49,10 @@ public class DbTable extends JTable {
                 for (int i = 0; i < s.length; ++i) {
                     s[i] = getValueAt(row, i);
                 }
-                // SwingHelper.syso(s);// 调试输出
+                // convertor.convert(s);// 感觉好多余，不如fill一并convert
+                if (PrefManager.pref.get("isFillAfterSelect").equals("1")) {
+                    filler.fill(s);// 会触发两次，原因未知
+                }
             }
         });
 
