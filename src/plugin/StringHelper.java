@@ -14,9 +14,4 @@ public class StringHelper {
         }
         return sb.toString();
     }
-
-    // public static void main(String[] args) {
-    // String tx = FileHelper.read("m.txt");
-    // System.out.println(trimAll(tx));
-    // }
 }

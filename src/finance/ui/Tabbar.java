@@ -74,11 +74,6 @@ public class Tabbar {
         b_delete.addActionListener(ev_delete);
         b_search.addActionListener(ev_search);
         b_stat.addActionListener(ev_stat);
-        // Root.that.addKeyListener(new KeyAdapter() {
-        // public void keyReleased(KeyEvent e) {
-        // checkShortcuts(e);
-        // }
-        // }); page或root均无效
 
         activate();// 各种其他事件激活
     }
@@ -212,7 +207,8 @@ public class Tabbar {
             return false;
         }
         if (i_multi.isSelected()) {// 多选
-            // 稍后实现
+            String s_cmd = i_cmd.getText();
+            n = Supply.getMultiInput(money, date, type, comment, s_money, s_date, s_type, s_comment, s_cmd);
         } else {// 单选
             money = new double[1];
             date = new int[1];
@@ -242,11 +238,6 @@ public class Tabbar {
             return;
         }
         for (int i = 0; i < n; ++i) {
-            // Object[] from = new Object[5];
-            // from[1] = money[i];
-            // from[2] = type[i];
-            // from[3] = date[i];
-            // from[4] = comment[i];
             Object[] from = fetch(i);
             ProcessCmd cmd = new ProcessCmd(1, from);
             ProcessCtrl.push(cmd);
@@ -262,7 +253,6 @@ public class Tabbar {
             SwingHelper.syso("能且仅能编辑选中的一项");
             return;
         }
-        // Object[] from =
         Object[] to = fetch(0);
         int idx = DbTable.that.getSelectedRow();
         to[0] = (Integer) DbTable.that.getValueAt(idx, 0);

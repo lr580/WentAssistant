@@ -6,7 +6,6 @@ import javax.swing.table.*;
 import base.PrefManager;
 import mysql.Ctrl;
 import plugin.SwingHelper;
-
 import java.awt.Font;
 import java.sql.*;
 import java.util.*;

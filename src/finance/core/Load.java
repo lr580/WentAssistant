@@ -84,7 +84,6 @@ public class Load {
                 Object[] res = new Object[x.length];
                 for (int i = 0; i < res.length; ++i) {
                     res[i] = x[i];
-                    // System.out.println(res[i].toString());
                 }
                 res[2] = DbLoad.cata.p.get((Integer) res[2]).name;
                 res[3] = Supply.Date2Str((Integer) res[3]);
