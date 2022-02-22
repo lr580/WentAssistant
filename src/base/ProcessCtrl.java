@@ -8,8 +8,7 @@ import ui.EvSupply;
 import ui.DbTable;
 
 //因为设计缺陷，导致位于base包的该类与ui包的类存在过多耦合(Root和DbTable)
-//因此建议把这两个类实际上搬迁到ui包或认为属于ui包
-//注：Process系列均未调试
+//因此建议把这两个类实际上搬迁到ui包或认为属于ui包,虽然功能上它们在base包
 public class ProcessCtrl {// 撤销、重做管理
     public static boolean isWriteLog = true; // 是否记录运行日志
     public static List<ProcessCmd> s = new ArrayList<>();// 指令列表
@@ -76,7 +75,11 @@ public class ProcessCtrl {// 撤销、重做管理
             if (isWriteLog) {
                 DbCtrl.write_diary("执行撤销操作");
             }
-            EvSupply.set_unsaved();
+            if (top > 0) {
+                EvSupply.set_unsaved();
+            } else {
+                EvSupply.set_saved();
+            }
         }
     }
 
@@ -110,15 +113,15 @@ public class ProcessCtrl {// 撤销、重做管理
     }
 
     public static void save() {
-        tbname = ModLoad.nowModule + "_" + DbLoad.t_main;
+        tbname = DbLoad.getTypex(false);
         for (int i = 0; i < top; ++i) {
             ProcessCmd cmd = s.get(i);
             cmd.exec();
-            // DbTable.updater.update(cmd, false); 保存不改变界面
         }
         tbname = DbLoad.getTypex();
         n = 0;
         top = 0;
+        s.clear();
         if (isWriteLog) {
             DbCtrl.write_diary("保存全部操作");
         }

@@ -247,7 +247,7 @@ public class CatTree {
         for (int i = 1; i <= top; ++i) {
             Node nd = p.get(i);
             if (nd != null) {
-                t.add(new Pair(nd.w, i));
+                t.add(new Pair(-nd.w, i));
             }
         }
         Iterator<Pair> it = t.iterator();

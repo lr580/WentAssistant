@@ -29,7 +29,6 @@ public class Tabbar {
     private static int[] type = null;
     private static String[] comment = null;
     private static int n = 0;
-    // private static ProcessCmd[] cmd = null;
 
     public static void InitTabbar() {
         TbMain page = TbMain.that;
@@ -135,12 +134,11 @@ public class Tabbar {
                 SwingHelper.syso("金额、日期或类别不能为空");
                 return;
             }
-            // ProcessCmd[] cmd = new ProcessCmd[n];
             for (int i = 0; i < n; ++i) {
                 Object[] from = new Object[5];
                 from[1] = money[i];
-                from[2] = date[i];
-                from[3] = type[i];
+                from[2] = type[i];
+                from[3] = date[i];
                 from[4] = comment[i];
                 ProcessCmd cmd = new ProcessCmd(1, from);
                 ProcessCtrl.push(cmd);

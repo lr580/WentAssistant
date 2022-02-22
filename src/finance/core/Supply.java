@@ -22,17 +22,9 @@ public class Supply {// 库辅助函数
         return res;
     }
 
-    // @SuppressWarnings("deprecation") // 以后再优化
     public static int Now2Date() {
         Date now = new Date();
         String res = String.format("%tY%tm%td", now, now, now);
         return Integer.parseInt(res) % (1000000);
-        // int d = now.getDate();
-        // int m = now.getMonth() + 1;
-        // int y = now.getYear() + 1900;
     }
-
-    // public static void main(String[] args) {
-    // System.out.println(Now2Date());
-    // }
 }

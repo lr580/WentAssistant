@@ -42,8 +42,12 @@ public class ProcessCmd {// 数据库增删改指令
 
     public void exec() {// 顺着执行这条指令
         if (type == 1) {
-            Integer cnt = ++DbLoad.cnt;
-            DbLoad.set_info(DbLoad.getTypex(), cnt);
+            // Integer cnt = ++DbLoad.cnt;
+            Integer cnt = DbLoad.get_info(ProcessCtrl.tbname) + 1;
+            if (ProcessCtrl.tbname.equals(DbLoad.getTypex())) {// 临时表
+                DbLoad.cnt++;
+            }
+            DbLoad.set_info(ProcessCtrl.tbname, cnt);
             from[0] = cnt;
             add();
         } else if (type == 2) {
@@ -55,9 +59,14 @@ public class ProcessCmd {// 数据库增删改指令
 
     public void exec_inv() {// 逆着执行这条指令
         if (type == 1) {
+            System.out.println(ProcessCtrl.tbname + ":" + DbLoad.cnt);
             delete();
-            --DbLoad.cnt;
-            DbLoad.set_info(DbLoad.getTypex(), DbLoad.cnt);
+            // --DbLoad.cnt;
+            Integer cnt = DbLoad.get_info(ProcessCtrl.tbname) - 1;
+            if (ProcessCtrl.tbname.equals(DbLoad.getTypex())) {// 临时表
+                DbLoad.cnt--;
+            }
+            DbLoad.set_info(ProcessCtrl.tbname, cnt);
         } else if (type == 2) {
             update(from);
         } else if (type == 3) {
@@ -75,9 +84,9 @@ public class ProcessCmd {// 数据库增删改指令
         } else if (type == 3) {
             res += "删除";
         }
-        res += " " + ProcessCtrl.getString(from, 1);
+        res += " " + ProcessCtrl.getString(from, true);
         if (to != null) {
-            res += " -> " + ProcessCtrl.getString(to, 1);
+            res += " -> " + ProcessCtrl.getString(to, true);
         }
         return res;
     }

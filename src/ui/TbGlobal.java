@@ -13,8 +13,14 @@ public class TbGlobal extends JPanel {// tabbar global
     public static JComboBox<String> jc = new JComboBox<>(DbLoader.backups);
     // public static JComboBox<String> jcro = new JComboBox<>();//暂不考虑实现
     private static javax.swing.filechooser.FileFilter flits = new FileNameExtensionFilter("数据库文件(.sql)", "sql");
+    public static EvalCtrl pro_save = new EvalCtrl() {
+    };
+    public static EvalCtrl pro_undoall = new EvalCtrl() {
+    };
+
     public static ActionListener e_save = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
+            pro_save.eval_ctn();
             ProcessCtrl.save();
         }
     };// 可以被菜单栏复用
@@ -33,13 +39,14 @@ public class TbGlobal extends JPanel {// tabbar global
 
     public static ActionListener e_undoall = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if (DbLoader.saved == 0) {
+            if (DbLoad.saved == 0) {
                 int i = JOptionPane.showConfirmDialog(null, "这将会不可恢复地丢失尚未保存的全部更改,确认撤销吗", "提示",
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.INFORMATION_MESSAGE);
                 if (i != JOptionPane.OK_OPTION) {
                     return;
                 }
+                pro_undoall.eval_ctn();
                 ProcessCtrl.undoall();
             }
         }

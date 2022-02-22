@@ -103,7 +103,10 @@ public class DbLoad {
         return ModLoad.nowModule + "_" + t_temp;
     }
 
-    // public static void get_and_dt_cnt() {
-
-    // }
+    public static String getTypex(boolean isTemp) {
+        if (isTemp) {
+            return getTypex();
+        }
+        return ModLoad.nowModule + "_" + t_main;
+    }
 }

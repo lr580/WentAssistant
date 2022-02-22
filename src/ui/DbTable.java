@@ -125,10 +125,10 @@ public class DbTable extends JTable {
     }
 
     public static int findRow(int idx) {
-        for (int i = 1, ie = that.tm.getRowCount(); i <= ie; ++i) {
-            int v = (Integer) that.tm.getValueAt(i, 1);
+        for (int i = 0, ie = that.tm.getRowCount(); i < ie; ++i) {
+            int v = (Integer) that.tm.getValueAt(i, 0);
             if (v == idx) {
-                return v;
+                return i;
             }
         }
         SwingHelper.syso("找不到编号为" + idx + "的列");
