@@ -15,11 +15,23 @@ public class TbGlobal extends JPanel {// tabbar global
     private static javax.swing.filechooser.FileFilter flits = new FileNameExtensionFilter("数据库文件(.sql)", "sql");
     public static ActionListener e_save = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            DbLoader.save();
+            ProcessCtrl.save();
         }
     };// 可以被菜单栏复用
 
     public static ActionListener e_undo = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            ProcessCtrl.undo();
+        }
+    };
+
+    public static ActionListener e_redo = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            ProcessCtrl.redo();
+        }
+    };
+
+    public static ActionListener e_undoall = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (DbLoader.saved == 0) {
                 int i = JOptionPane.showConfirmDialog(null, "这将会不可恢复地丢失尚未保存的全部更改,确认撤销吗", "提示",
@@ -28,18 +40,8 @@ public class TbGlobal extends JPanel {// tabbar global
                 if (i != JOptionPane.OK_OPTION) {
                     return;
                 }
-                DbLoader.undo();
+                ProcessCtrl.undoall();
             }
-        }
-    };
-
-    public static ActionListener e_redo = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-        }
-    };
-
-    public static ActionListener e_undoall = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
         }
     };
 

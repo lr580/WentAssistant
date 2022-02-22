@@ -4,9 +4,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import mysql.Ctrl;
+import ui.EvSupply;
+import ui.DbTable;
 
+//因为设计缺陷，导致位于base包的该类与ui包的类存在过多耦合(Root和DbTable)
+//因此建议把这两个类实际上搬迁到ui包或认为属于ui包
 //注：Process系列均未调试
 public class ProcessCtrl {// 撤销、重做管理
+    public static boolean isWriteLog = true; // 是否记录运行日志
     public static List<ProcessCmd> s = new ArrayList<>();// 指令列表
     public static String tbname = null;// 数据库名
     public static int top = 0;// 当前栈顶
@@ -35,6 +40,7 @@ public class ProcessCtrl {// 撤销、重做管理
         top = 0;
         n = 0;
         s.clear();
+        isWriteLog = true;
     }
 
     public static String getString(Object[] a, boolean bracket) {
@@ -64,14 +70,26 @@ public class ProcessCtrl {// 撤销、重做管理
     public static void undo() {
         if (top > 0) {
             --top;
-            s.get(top).exec_inv();
+            ProcessCmd cmd = s.get(top);
+            cmd.exec_inv();
+            DbTable.updater.update(cmd, true);
+            if (isWriteLog) {
+                DbCtrl.write_diary("执行撤销操作");
+            }
+            EvSupply.set_unsaved();
         }
     }
 
     public static void redo() {
         if (top < n) {
-            s.get(top).exec();
+            ProcessCmd cmd = s.get(top);
+            cmd.exec();
+            DbTable.updater.update(cmd, false);
             ++top;
+            if (isWriteLog) {
+                DbCtrl.write_diary("执行重做操作");
+            }
+            EvSupply.set_unsaved();
         }
     }
 
@@ -84,22 +102,39 @@ public class ProcessCtrl {// 撤销、重做管理
         s.add(cmd);
         ++n;
         ++top;
+        if (isWriteLog) {
+            DbCtrl.write_diary(cmd.toString());
+        }
+        EvSupply.set_unsaved();
+        DbTable.updater.update(cmd, false);
     }
 
     public static void save() {
         tbname = ModLoad.nowModule + "_" + DbLoad.t_main;
         for (int i = 0; i < top; ++i) {
-            s.get(i).exec();
+            ProcessCmd cmd = s.get(i);
+            cmd.exec();
+            // DbTable.updater.update(cmd, false); 保存不改变界面
         }
         tbname = DbLoad.getTypex();
         n = 0;
         top = 0;
+        if (isWriteLog) {
+            DbCtrl.write_diary("保存全部操作");
+        }
+        EvSupply.set_saved();
     }
 
     public static void undoall() {
         for (int i = top - 1; i >= 0; --i) {
-            s.get(i).exec_inv();
+            ProcessCmd cmd = s.get(i);
+            cmd.exec_inv();
+            DbTable.updater.update(cmd, true);
         }
         top = 0;
+        if (isWriteLog) {
+            DbCtrl.write_diary("撤销全部未保存操作");
+        }
+        EvSupply.set_saved();
     }
 }

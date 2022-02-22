@@ -43,6 +43,7 @@ public class ProcessCmd {// 数据库增删改指令
     public void exec() {// 顺着执行这条指令
         if (type == 1) {
             Integer cnt = ++DbLoad.cnt;
+            DbLoad.set_info(DbLoad.getTypex(), cnt);
             from[0] = cnt;
             add();
         } else if (type == 2) {
@@ -56,10 +57,28 @@ public class ProcessCmd {// 数据库增删改指令
         if (type == 1) {
             delete();
             --DbLoad.cnt;
+            DbLoad.set_info(DbLoad.getTypex(), DbLoad.cnt);
         } else if (type == 2) {
             update(from);
         } else if (type == 3) {
             add();
         }
+    }
+
+    @Override
+    public String toString() {
+        String res = "";
+        if (type == 1) {
+            res += "插入";
+        } else if (type == 2) {
+            res += "修改";
+        } else if (type == 3) {
+            res += "删除";
+        }
+        res += " " + ProcessCtrl.getString(from, 1);
+        if (to != null) {
+            res += " -> " + ProcessCtrl.getString(to, 1);
+        }
+        return res;
     }
 }

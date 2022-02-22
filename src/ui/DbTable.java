@@ -25,7 +25,7 @@ public class DbTable extends JTable {
     private static int ty[] = null;// 各列数据类型
     public static int tb_state = 0; // 表格状态(各模块自定义)
     public static TableUpdater updater = new TableUpdater() {
-    };
+    }; // 默认不记录日志(因为含重做指令的可能性)
 
     public DbTable() {
         that = this;

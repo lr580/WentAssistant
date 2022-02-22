@@ -2,18 +2,20 @@ package finance.ui;
 
 import javax.swing.*;
 import base.ModLoad;
+import base.ProcessCmd;
+import base.ProcessCtrl;
 import finance.core.Load;
 import finance.core.Supply;
-
 import java.awt.*;
 import java.awt.event.*;
-
+import base.DbLoad;
 import ui.DbTable;
 import ui.EvSupply;
 import ui.InputFiller;
 import ui.TbMain;
 import plugin.Eval;
 import plugin.FsLabel;
+import plugin.SwingHelper;
 
 public class Tabbar {
     private static JTextField i_money = new JTextField(4);
@@ -21,7 +23,13 @@ public class Tabbar {
     public static JComboBox<String> i_type = new JComboBox<>(Load.cat_list);
     private static JTextField i_comment = new JTextField(12);
     private static JTextField i_cmd = new JTextField(25);
-    private static JCheckBox i_multi = new JCheckBox("多项录入", true);
+    private static JCheckBox i_multi = new JCheckBox("多项录入");
+    private static double[] money = null;
+    private static int[] date = null;
+    private static int[] type = null;
+    private static String[] comment = null;
+    private static int n = 0;
+    // private static ProcessCmd[] cmd = null;
 
     public static void InitTabbar() {
         TbMain page = TbMain.that;
@@ -82,6 +90,8 @@ public class Tabbar {
                 i_comment.setText(s[4].toString());
             }
         };
+
+        i_date.setText(Integer.toString(Supply.Now2Date()));
     }
 
     private static ActionListener ev_catactrl = new ActionListener() {
@@ -95,8 +105,46 @@ public class Tabbar {
         }
     };
 
+    private static boolean check_input() {// 检查非空,获取输入
+        String s_money = i_money.getText();
+        String s_date = i_date.getText();
+        int s_type = DbLoad.cata.find((String) i_type.getSelectedItem());
+        String s_comment = i_comment.getText();
+        if (s_type == 0 || s_money.length() == 0 || s_date.length() == 0) {
+            return false;
+        }
+        if (i_multi.isSelected()) {// 多选
+            // 稍后实现
+        } else {// 单选
+            money = new double[1];
+            date = new int[1];
+            type = new int[1];
+            comment = new String[1];
+            money[0] = Double.parseDouble(s_money);
+            date[0] = Integer.parseInt(s_date);
+            type[0] = s_type;
+            comment[0] = s_comment;
+            n = 1;
+        }
+        return true;
+    }
+
     private static ActionListener ev_add = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
+            if (!check_input()) {
+                SwingHelper.syso("金额、日期或类别不能为空");
+                return;
+            }
+            // ProcessCmd[] cmd = new ProcessCmd[n];
+            for (int i = 0; i < n; ++i) {
+                Object[] from = new Object[5];
+                from[1] = money[i];
+                from[2] = date[i];
+                from[3] = type[i];
+                from[4] = comment[i];
+                ProcessCmd cmd = new ProcessCmd(1, from);
+                ProcessCtrl.push(cmd);
+            }
         }
     };
 

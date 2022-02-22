@@ -3,6 +3,7 @@ package base;
 import category.core.CatTree;
 import category.core.Cata;
 import mysql.*;
+
 import java.sql.*;
 import java.util.*;
 
@@ -34,6 +35,8 @@ public class DbLoad {
         while (it.hasNext()) {
             init_table(it.next());
         }
+
+        // ProcessCtrl.init(); 由于此时未加载模块，所以不能初始化
     }
 
     public static void add_info(String key, int value) {
@@ -99,4 +102,8 @@ public class DbLoad {
     public static String getTypex() {
         return ModLoad.nowModule + "_" + t_temp;
     }
+
+    // public static void get_and_dt_cnt() {
+
+    // }
 }

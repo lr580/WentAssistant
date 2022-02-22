@@ -6,7 +6,7 @@ import mysql.*;
 import java.awt.event.*;
 
 public class Root extends JFrame {
-    private final static String title = "文常助手";
+    public final static String title = "文常助手";
     public static Root that = null;
 
     public Root() {
@@ -24,16 +24,16 @@ public class Root extends JFrame {
         setVisible(true);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                if (DbLoader.saved == 0) {
+                if (DbLoad.saved == 0) {
                     int i = JOptionPane.showConfirmDialog(null, "是否保存当前修改", "提示",
                             JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.INFORMATION_MESSAGE);
                     if (i == JOptionPane.OK_OPTION) {// 保存
-                        DbLoader.save();
+                        ProcessCtrl.save();
                     } else if (i == JOptionPane.CLOSED_OPTION) {// 叉掉
                         return;
                     } else if (i == JOptionPane.CANCEL_OPTION) {// 不保存
-                        DbLoader.undo();
+                        ProcessCtrl.undoall();
                     }
                 }
                 DbCtrl.save_diary();

@@ -3,11 +3,14 @@ package finance.core;
 import java.util.Map;
 import java.util.Vector;
 import java.sql.ResultSet;
+import base.DbCtrl;
 import base.DbLoad;
+import base.ProcessCtrl;
 import finance.ui.Tabbar;
 import mysql.Ctrl;
 import ui.DbTable;
 import ui.TableBlender;
+import ui.TableUpdater;
 
 public class Load {
     public static Vector<String> cat_list = new Vector<>();
@@ -46,5 +49,21 @@ public class Load {
                 }
             }
         };
+
+        DbTable.updater = new TableUpdater() {
+            public Object[] blend(Object[] x) {
+                Object[] res = new Object[x.length];
+                for (int i = 0; i < res.length; ++i) {
+                    res[i] = x[i];
+                }
+                res[2] = DbLoad.cata.p.get((Integer) res[2]).name;
+                res[3] = Supply.Date2Str((Integer) res[3]);
+                return res;
+            }
+        };
+
+        ProcessCtrl.init();
+
+        DbCtrl.write_diary("载入财政官模块");
     }
 }
