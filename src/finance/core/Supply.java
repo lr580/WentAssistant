@@ -2,6 +2,8 @@ package finance.core;
 
 import java.util.Date;
 
+import base.DbLoad;
+
 public class Supply {// 库辅助函数
     public static String Date2Str(int x) {
         int day = x % 100;
@@ -26,5 +28,10 @@ public class Supply {// 库辅助函数
         Date now = new Date();
         String res = String.format("%tY%tm%td", now, now, now);
         return Integer.parseInt(res) % (1000000);
+    }
+
+    public static void queryModify(Object[] obj) {// 对获取到的一列调整为数据库格式
+        obj[2] = DbLoad.cata.find((String) obj[2]);
+        obj[3] = Str2Date((String) obj[3]);
     }
 }

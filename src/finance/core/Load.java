@@ -63,10 +63,18 @@ public class Load {
                         DbLoad.cata.cntNode((Integer) cmd.from[2], 1);
                         Cata.update(DbLoad.getTypex(), DbLoad.cata.export());
                     }
+                    else if (cmd.type == 3) {
+                        DbLoad.cata.cntNode((Integer) cmd.from[2], -1);
+                        Cata.update(DbLoad.getTypex(), DbLoad.cata.export());
+                    }
                 } else {
                     eval_inv(cmd);
                     if (cmd.type == 1) {
                         DbLoad.cata.cntNode((Integer) cmd.from[2], -1);
+                        Cata.update(DbLoad.getTypex(), DbLoad.cata.export());
+                    }
+                    else if (cmd.type == 3) {
+                        DbLoad.cata.cntNode((Integer) cmd.from[2], 1);
                         Cata.update(DbLoad.getTypex(), DbLoad.cata.export());
                     }
                 }

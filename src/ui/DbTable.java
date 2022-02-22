@@ -138,4 +138,12 @@ public class DbTable extends JTable {
     public static void updateRow(int idx, Object[] row) {// 假设已经blend了
         updRow(findRow(idx), row);
     }
+
+    public static Object[] queryRow(int idx) {// 第idx行
+        Object[] res = new Object[n];
+        for (int i = 0; i < n; ++i) {
+            res[i] = that.getValueAt(idx, i);
+        }
+        return res;
+    }
 }

@@ -32,6 +32,7 @@ public class Tabbar {
     private static JButton b_add = new JButton("添加");
     private static JButton b_update = new JButton("编辑");
     private static JButton b_delete = new JButton("删除");
+    private static Object[] tmp = null;// 点击后获取的一行
 
     public static void InitTabbar() {
         TbMain page = TbMain.that;
@@ -85,6 +86,12 @@ public class Tabbar {
     private static void activate() {
         DbTable.filler = new InputFiller() {
             public void fill(Object[] s) {
+                tmp = new Object[5];
+                for (int i = 0; i < 5; ++i) {
+                    tmp[i] = s[i];
+                }
+                tmp[2] = Load.cat_list.indexOf(s[2].toString());
+                tmp[3] = Supply.Str2Date(s[3].toString());
                 i_money.setText(s[1].toString());
                 int idx = Load.cat_list.indexOf(s[2].toString());
                 i_type.setSelectedIndex(idx);
@@ -220,28 +227,59 @@ public class Tabbar {
         return true;
     }
 
+    private static Object[] fetch(int i) {
+        Object[] res = new Object[5];
+        res[1] = money[i];
+        res[2] = type[i];
+        res[3] = date[i];
+        res[4] = comment[i];
+        return res;
+    }
+
     private static void add() {
         if (!check_input()) {
             SwingHelper.syso("金额、日期或类别不能为空");
             return;
         }
         for (int i = 0; i < n; ++i) {
-            Object[] from = new Object[5];
-            from[1] = money[i];
-            from[2] = type[i];
-            from[3] = date[i];
-            from[4] = comment[i];
+            // Object[] from = new Object[5];
+            // from[1] = money[i];
+            // from[2] = type[i];
+            // from[3] = date[i];
+            // from[4] = comment[i];
+            Object[] from = fetch(i);
             ProcessCmd cmd = new ProcessCmd(1, from);
             ProcessCtrl.push(cmd);
         }
     }
 
     private static void update() {
-
+        if (!check_input()) {
+            SwingHelper.syso("金额、日期或类别不能为空");
+            return;
+        }
+        if (DbTable.that.getSelectedRows().length != 1) {
+            SwingHelper.syso("能且仅能编辑选中的一项");
+            return;
+        }
+        // Object[] from =
+        Object[] to = fetch(0);
+        int idx = DbTable.that.getSelectedRow();
+        to[0] = (Integer) DbTable.that.getValueAt(idx, 0);
+        Object[] from = DbTable.queryRow(idx);
+        Supply.queryModify(from);
+        ProcessCmd cmd = new ProcessCmd(2, from, to);
+        ProcessCtrl.push(cmd);
     }
 
     private static void delete() {
-
+        int[] rows = DbTable.that.getSelectedRows();
+        for (int i = rows.length - 1; i >= 0; --i) {// 切记倒着来
+            Object[] from = DbTable.queryRow(rows[i]);
+            Supply.queryModify(from);
+            ProcessCmd cmd = new ProcessCmd(3, from);
+            ProcessCtrl.push(cmd);
+        }
     }
 
     private static ActionListener ev_add = new ActionListener() {
