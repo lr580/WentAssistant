@@ -29,6 +29,9 @@ public class Tabbar {
     private static int[] type = null;
     private static String[] comment = null;
     private static int n = 0;
+    private static JButton b_add = new JButton("添加");
+    private static JButton b_update = new JButton("编辑");
+    private static JButton b_delete = new JButton("删除");
 
     public static void InitTabbar() {
         TbMain page = TbMain.that;
@@ -52,14 +55,8 @@ public class Tabbar {
         JButton b_catactrl = new JButton("类别管理");
         b_catactrl.addActionListener(ev_catactrl);
         p_uf.add(b_catactrl);
-
-        JButton b_add = new JButton("添加");
         p_df.add(b_add);
-
-        JButton b_update = new JButton("编辑");
         p_df.add(b_update);
-
-        JButton b_delete = new JButton("删除");
         p_df.add(b_delete);
 
         p_df.add(new FsLabel("命令:"));
@@ -76,6 +73,12 @@ public class Tabbar {
         b_delete.addActionListener(ev_delete);
         b_search.addActionListener(ev_search);
         b_stat.addActionListener(ev_stat);
+        // Root.that.addKeyListener(new KeyAdapter() {
+        // public void keyReleased(KeyEvent e) {
+        // checkShortcuts(e);
+        // }
+        // }); page或root均无效
+
         activate();// 各种其他事件激活
     }
 
@@ -91,7 +94,96 @@ public class Tabbar {
         };
 
         i_date.setText(Integer.toString(Supply.Now2Date()));
+
+        // 热键：
+        i_money.addActionListener(ev_add);
+        i_date.addActionListener(ev_add);
+        i_comment.addActionListener(ev_add);
+        i_money.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {// 不能用keyTyped获取无输入的键
+                // System.out.println(e.getKeyCode() + "_" + e.getKeyChar());
+                int code = e.getKeyCode();
+                if (code == KeyEvent.VK_UP) {
+                    i_cmd.requestFocus();
+                } else if (code == KeyEvent.VK_DOWN) {
+                    i_date.requestFocus();
+                }
+                checkShortcuts(e);
+            }
+        });
+        i_date.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                int code = e.getKeyCode();
+                if (code == KeyEvent.VK_UP) {
+                    i_money.requestFocus();
+                } else if (code == KeyEvent.VK_DOWN) {
+                    i_type.requestFocus();
+                }
+                checkShortcuts(e);
+            }
+        });
+        i_type.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                int code = e.getKeyCode();
+                int idx = i_type.getSelectedIndex();
+                int n = Load.cat_list.size();
+                if (code == KeyEvent.VK_UP) {
+                    i_date.requestFocus();
+                } else if (code == KeyEvent.VK_DOWN) {
+                    i_comment.requestFocus();
+                } else if (code == KeyEvent.VK_LEFT) {
+                    if (idx != 0) {
+                        i_type.setSelectedIndex(idx - 1);
+                    } else {
+                        i_type.setSelectedIndex(n - 1);
+                    }
+                } else if (code == KeyEvent.VK_RIGHT) {
+                    if (idx + 1 < n) {
+                        i_type.setSelectedIndex(idx + 1);
+                    } else {
+                        i_type.setSelectedIndex(0);
+                    }
+                }
+                checkShortcuts(e);
+            }
+        });
+        i_comment.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                int code = e.getKeyCode();
+                if (code == KeyEvent.VK_UP) {
+                    i_type.requestFocus();
+                } else if (code == KeyEvent.VK_DOWN) {
+                    i_cmd.requestFocus();
+                }
+                checkShortcuts(e);
+            }
+        });
+        i_cmd.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                int code = e.getKeyCode();
+                if (code == KeyEvent.VK_UP) {
+                    i_comment.requestFocus();
+                } else if (code == KeyEvent.VK_DOWN) {
+                    i_money.requestFocus();
+                }
+                checkShortcuts(e);
+            }
+        });
     }
+
+    public static void checkShortcuts(KeyEvent e) {
+        // System.out.println("awa");
+        if (e.isControlDown()) {// CTRL+
+            int code = e.getKeyCode();
+            if (code == KeyEvent.VK_I) {
+                add();
+            } else if (code == KeyEvent.VK_U) {
+                update();
+            } else if (code == KeyEvent.VK_D) {
+                delete();
+            }
+        }
+    }// 未来可以考虑拓展到其他控件，所以public一下
 
     private static ActionListener ev_catactrl = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -128,31 +220,45 @@ public class Tabbar {
         return true;
     }
 
+    private static void add() {
+        if (!check_input()) {
+            SwingHelper.syso("金额、日期或类别不能为空");
+            return;
+        }
+        for (int i = 0; i < n; ++i) {
+            Object[] from = new Object[5];
+            from[1] = money[i];
+            from[2] = type[i];
+            from[3] = date[i];
+            from[4] = comment[i];
+            ProcessCmd cmd = new ProcessCmd(1, from);
+            ProcessCtrl.push(cmd);
+        }
+    }
+
+    private static void update() {
+
+    }
+
+    private static void delete() {
+
+    }
+
     private static ActionListener ev_add = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if (!check_input()) {
-                SwingHelper.syso("金额、日期或类别不能为空");
-                return;
-            }
-            for (int i = 0; i < n; ++i) {
-                Object[] from = new Object[5];
-                from[1] = money[i];
-                from[2] = type[i];
-                from[3] = date[i];
-                from[4] = comment[i];
-                ProcessCmd cmd = new ProcessCmd(1, from);
-                ProcessCtrl.push(cmd);
-            }
+            add();
         }
     };
 
     private static ActionListener ev_update = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
+            update();
         }
     };
 
     private static ActionListener ev_delete = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
+            delete();
         }
     };
 

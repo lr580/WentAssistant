@@ -42,7 +42,6 @@ public class ProcessCmd {// 数据库增删改指令
 
     public void exec() {// 顺着执行这条指令
         if (type == 1) {
-            // Integer cnt = ++DbLoad.cnt;
             Integer cnt = DbLoad.get_info(ProcessCtrl.tbname) + 1;
             if (ProcessCtrl.tbname.equals(DbLoad.getTypex())) {// 临时表
                 DbLoad.cnt++;
@@ -59,9 +58,7 @@ public class ProcessCmd {// 数据库增删改指令
 
     public void exec_inv() {// 逆着执行这条指令
         if (type == 1) {
-            System.out.println(ProcessCtrl.tbname + ":" + DbLoad.cnt);
             delete();
-            // --DbLoad.cnt;
             Integer cnt = DbLoad.get_info(ProcessCtrl.tbname) - 1;
             if (ProcessCtrl.tbname.equals(DbLoad.getTypex())) {// 临时表
                 DbLoad.cnt--;
