@@ -11,7 +11,6 @@ import java.io.*;
 public class TbGlobal extends JPanel {// tabbar global
     public static DbTable jt = null;
     public static JComboBox<String> jc = new JComboBox<>(DbLoader.backups);
-    // public static JComboBox<String> jcro = new JComboBox<>();//暂不考虑实现
     private static javax.swing.filechooser.FileFilter flits = new FileNameExtensionFilter("数据库文件(.sql)", "sql");
     public static EvalCtrl pro_save = new EvalCtrl() {
     };
@@ -192,9 +191,6 @@ public class TbGlobal extends JPanel {// tabbar global
         uf.add(b_redo);
         JButton b_undoall = new JButton("撤销全部");
         uf.add(b_undoall);
-
-        // uf.add(new FsLabel("历史操作:"));
-        // uf.add(jcro); //因为命名困难(太长了)所以不打算列表展示(反正展示了也没用)
 
         JButton b_importall = new JButton("导入数据库");
         b_importall.addActionListener(e_importall);

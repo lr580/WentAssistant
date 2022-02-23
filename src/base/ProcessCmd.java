@@ -18,14 +18,14 @@ public class ProcessCmd {// 数据库增删改指令
 
     private void add() {// 加入
         String cmd = "insert into " + ProcessCtrl.tbname + " values" + ProcessCtrl.getString(from);
-        System.out.println(cmd);
+        // System.out.println(cmd);
         Ctrl.run(cmd);
     }
 
     private void delete() {// 删除
         Integer idx = (Integer) from[0];
         String cmd = "delete from " + ProcessCtrl.tbname + " where id = " + idx;
-        System.out.println(cmd);
+        // System.out.println(cmd);
         Ctrl.run(cmd);
     }
 
@@ -36,7 +36,7 @@ public class ProcessCmd {// 数据库增删改指令
             cmd += "`" + ProcessCtrl.cname[i] + "`=" + ProcessCtrl.getString(t[i], i);
         }
         cmd += " where id = " + ((Integer) t[0]).toString();
-        System.out.println(cmd);
+        // System.out.println(cmd);
         Ctrl.run(cmd);
     }
 

@@ -67,7 +67,7 @@ public class Root extends JFrame {
             JOptionPane.showMessageDialog(null, Link.err_msg);
             new SetDatabase(this);
         }
-        DbLoader.checkinit();// 将来会删除
+        // DbLoader.checkinit();// 将来会删除
         DbLoad.init();
     }
 

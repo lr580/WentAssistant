@@ -6,13 +6,21 @@ import ui.DbTable;
 
 public class ModLoad {// 各模块加载并挂入当前选择模块
     public static Set<String> modnames = new HashSet<>();
-    public static String nowModule = "default";
+    public static String nowModule = "default";// 事实上用default为nowModule其他地方的函数调用会bug
     public static EvalCtrl evalctrl = new EvalCtrl();
 
     public static void loadModule() {
         finance.core.Init.InitModule();
 
+        loadDb();
         startModule();
+    }
+
+    private static void loadDb() {// 加载完全部模块后的后继事件
+        Iterator<String> it = modnames.iterator();
+        while (it.hasNext()) {// 必须考虑初始空数据库建表
+            DbLoad.create_table(it.next());// 目前唯一调用create_table的地方
+        }
     }
 
     private static void startModule() {

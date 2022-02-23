@@ -6,6 +6,7 @@ import base.PrefManager;
 import base.ProcessCmd;
 import base.ProcessCtrl;
 import finance.core.Load;
+import finance.core.OldSupporter;
 import finance.core.Supply;
 import java.awt.*;
 import java.awt.event.*;
@@ -33,10 +34,15 @@ public class Tabbar {
     private static JButton b_add = new JButton("添加");
     private static JButton b_update = new JButton("编辑");
     private static JButton b_delete = new JButton("删除");
+    private static JButton b_importcata = new JButton("导入类别");
+    private static JButton b_importdata = new JButton("导入数据");
     private static Object[] tmp = null;// 点击后获取的一行
+    private static TbMain page = null;
+    // 导入暂未实现
 
     public static void InitTabbar() {
         TbMain page = TbMain.that;
+        Tabbar.page = page;
         page.removeAll();
         page.setLayout(new GridLayout(2, 1, 5, 5));
         JPanel p_uf = new JPanel(new FlowLayout(1, 8, 5));
@@ -57,6 +63,7 @@ public class Tabbar {
         JButton b_catactrl = new JButton("类别管理");
         b_catactrl.addActionListener(ev_catactrl);
         p_uf.add(b_catactrl);
+        p_uf.add(b_importcata);
         p_df.add(b_add);
         p_df.add(b_update);
         p_df.add(b_delete);
@@ -70,11 +77,15 @@ public class Tabbar {
         JButton b_stat = new JButton("统计");
         p_df.add(b_stat);
 
+        p_df.add(b_importdata);
+
         b_add.addActionListener(ev_add);
         b_update.addActionListener(ev_update);
         b_delete.addActionListener(ev_delete);
         b_search.addActionListener(ev_search);
         b_stat.addActionListener(ev_stat);
+        b_importcata.addActionListener(ev_importcata);
+        b_importdata.addActionListener(ev_importdata);
 
         activate();// 各种其他事件激活
     }
@@ -308,6 +319,18 @@ public class Tabbar {
 
     private static ActionListener ev_stat = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
+        }
+    };
+
+    private static ActionListener ev_importcata = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            OldSupporter.import_cata(page);
+        }
+    };
+
+    private static ActionListener ev_importdata = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            OldSupporter.import_data(page);
         }
     };
 }

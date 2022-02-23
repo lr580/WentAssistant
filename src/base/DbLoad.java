@@ -31,10 +31,10 @@ public class DbLoad {
         String ccmd2 = "update `infos` set `value`= ? where `key` = ?";
         info_changer = Ctrl.pre(ccmd2);
 
-        Iterator<String> it = ModLoad.modnames.iterator();
-        while (it.hasNext()) {
-            init_table(it.next());
-        }
+        // Iterator<String> it = ModLoad.modnames.iterator();
+        // while (it.hasNext()) {
+        // init_table(it.next());
+        // }
 
         // ProcessCtrl.init(); 由于此时未加载模块，所以不能初始化
     }
@@ -70,7 +70,7 @@ public class DbLoad {
         Ctrl.update(cmd);
     }
 
-    private static void init_table(String type) {// 表格名为type的表格初始化
+    public static void create_table(String type) {// 表格名为type的表格初始化
         if (-1 != get_info(type + "_main")) {
             return;
         }

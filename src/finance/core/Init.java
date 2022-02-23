@@ -19,5 +19,6 @@ public class Init {// 负责模块初始化
 
         String cmd_tbcr = "create table if not exists `fin_#` ( `id` int not null auto_increment, `value` decimal(16,2) not null, `type` int not null, `date` int not null, `comment` varchar(100), primary key(`id`)) engine=InnoDB default charset=utf8;";
         DbLoad.table_creator.put(modname, cmd_tbcr);
+        // DbLoad.init_table();
     }
 }

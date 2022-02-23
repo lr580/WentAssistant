@@ -137,10 +137,4 @@ public class Init {
         }
         return sb.toString();
     }
-
-    // public static void main(String[] args) {// 测试用例
-    // // change_psw("");
-    // // is_inited_db();
-    // System.out.println(isValidate());
-    // }
 }

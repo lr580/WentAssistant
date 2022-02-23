@@ -139,4 +139,6 @@ public class Supply {// 库辅助函数
 
         return n;
     }
+
+    // public static boolean isUnsaved
 }

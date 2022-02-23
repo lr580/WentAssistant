@@ -4,6 +4,9 @@ import java.awt.event.*;
 import base.DbLoad;
 import base.ModLoad;
 import category.ui.CatManager;
+import java.io.File;
+import java.awt.*;
+import javax.swing.JFileChooser;
 
 public class EvSupply {// 事件监听器提供
     public static void openCataCtrl() {
@@ -37,4 +40,16 @@ public class EvSupply {// 事件监听器提供
             set_unsaved();
         }
     };
+
+    public static File select_file(Container ct, javax.swing.filechooser.FileFilter filter) {
+        JFileChooser fc = new JFileChooser();
+        if (filter != null) {
+            fc.setFileFilter(filter);
+        }
+        fc.setCurrentDirectory(new File("."));
+        if (fc.showOpenDialog(ct) != JFileChooser.APPROVE_OPTION) {
+            return null;
+        }
+        return fc.getSelectedFile();
+    }
 }
