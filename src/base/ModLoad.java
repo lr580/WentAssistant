@@ -23,6 +23,8 @@ public class ModLoad {// 各模块加载并挂入当前选择模块
             finance.core.Load.Read();
         }
 
-        DbTable.that.render("select * from " + DbLoad.getTypex());
+        if (PrefManager.pref.get("isFirstShow").equals("1")) {
+            DbTable.that.render("select * from " + DbLoad.getTypex());
+        }
     }
 }

@@ -107,6 +107,7 @@ public class Preference extends JDialog { // 暂不提供翻译功能，因为�
         for (int i = 0; i < n; ++i) {
             String s = input[i].getText();
             PrefManager.pref.put(h.get(i), s);
+            PrefManager.write_setting();
         }
         DbCtrl.write_diary("保存偏好设置");
         set_saved();

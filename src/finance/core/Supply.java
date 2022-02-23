@@ -49,7 +49,7 @@ public class Supply {// 库辅助函数
         obj[3] = Str2Date((String) obj[3]);
     }
 
-    public static int getMultiInput(String s_money, String s_date, int s_type, String s_comment, String s_cmd) {
+    public static int getMultiInput(String s_money, String s_date, int s_type, String s_comment, String s_cmd) {// 假设输入绝对无误
         String[] a_money = s_money.split(" ");
         String[] a_date = s_date.split(" ");
         String[] a_type = s_cmd.split(" ");
@@ -139,19 +139,4 @@ public class Supply {// 库辅助函数
 
         return n;
     }
-
-    // public static void main(String[] args) {
-    // System.out.println(DateDelta(220222, -1000));
-    // }
-
-    // public static void test(int[] x) {
-    // x = new int[1];
-    // x[0] = 1;
-    // }
-
-    // public static void main(String[] args) {
-    // int y[] = null;
-    // test(y);
-    // System.out.println(y == null);
-    // }
 }

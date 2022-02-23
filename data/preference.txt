@@ -1,6 +1,6 @@
-nowModule=fin
-isRecordDiary=1
-isEncryptDiary=0
 isClearAfterAdd=1
+isEncryptDiary=0
 isFillAfterSelect=1
 isFirstShow=1
+isRecordDiary=1
+nowModule=fin

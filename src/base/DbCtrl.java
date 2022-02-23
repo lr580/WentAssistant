@@ -3,6 +3,7 @@ package base;
 import java.sql.*;
 import java.util.Date;
 import mysql.*;
+import plugin.Encrypt;
 import plugin.FileHelper;
 import ui.Root;
 import java.io.File;
@@ -78,11 +79,18 @@ public class DbCtrl {
 
     public static void save_diary() {
         write_diary("正常退出程序");
+        if (PrefManager.pref.get("isRecordDiary").equals("0")) {
+            return;
+        }
         diary.deleteCharAt(diary.length() - 1);// 删掉最后的换行
         if (!f_dir.exists()) {
             f_dir.mkdir();
         }
-        FileHelper.write(diary.toString(), f_log);
+        String res = diary.toString();
+        if (PrefManager.pref.get("isEncryptDiary").equals("1")) {
+            res = Encrypt.encode(res);
+        }
+        FileHelper.write(res, f_log);
     }
 
     public static int add_stu(String name, String number, String major) {

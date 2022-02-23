@@ -2,6 +2,7 @@ package finance.ui;
 
 import javax.swing.*;
 import base.ModLoad;
+import base.PrefManager;
 import base.ProcessCmd;
 import base.ProcessCtrl;
 import finance.core.Load;
@@ -28,7 +29,7 @@ public class Tabbar {
     public static int[] date = null;
     public static int[] type = null;
     public static String[] comment = null;
-    public static int n = 0;
+    private static int n = 0;
     private static JButton b_add = new JButton("添加");
     private static JButton b_update = new JButton("编辑");
     private static JButton b_delete = new JButton("删除");
@@ -201,18 +202,18 @@ public class Tabbar {
         String s_date = i_date.getText();
         int s_type = DbLoad.cata.find((String) i_type.getSelectedItem());
         String s_comment = i_comment.getText();
+
+        if (s_date.length() == 0) {
+            s_date = Integer.toString(Supply.Now2Date());
+            i_date.setText(s_date);
+        }
+
         if (s_type == 0 || s_money.length() == 0 || s_date.length() == 0) {
             return false;
         }
         if (i_multi.isSelected()) {// 多选
             String s_cmd = i_cmd.getText();
             n = Supply.getMultiInput(s_money, s_date, s_type, s_comment, s_cmd);
-            // System.out.println();
-            // for (int i = 0; i < n; ++i) {
-            // System.out.println(money[i] + " " + date[i] + " " + type[i] + " " +
-            // comment[i]);
-            // }
-            // return false;// 暂时
         } else {// 单选
             money = new double[1];
             date = new int[1];
@@ -245,6 +246,12 @@ public class Tabbar {
             Object[] from = fetch(i);
             ProcessCmd cmd = new ProcessCmd(1, from);
             ProcessCtrl.push(cmd);
+        }
+        if (PrefManager.pref.get("isClearAfterAdd").equals("1")) {
+            i_money.setText("");
+            // i_date.setText("");// 日期没必要清理
+            i_comment.setText("");
+            i_cmd.setText("");
         }
     }
 

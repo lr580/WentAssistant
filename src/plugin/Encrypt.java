@@ -74,28 +74,4 @@ public class Encrypt {
     public static String decode(String ori) {
         return decode(ori, key);
     }
-
-    // public static void main(String[] args) {// 测试用例
-    // System.out.println(fill("66"));
-    // String a = encode("awa你好");// 是否成功测试(含中文测试)
-    // System.out.println(a);
-    // System.out.println(decode(a));
-    // String b = encode("再见QwQ");// 可否复用测试
-    // System.out.println(b);
-    // System.out.println(decode(b));
-
-    // String c = encode("awa你好", "66");// 自定义密码
-    // System.out.println(c);
-    // System.out.println(decode(c, "66"));
-    // String d = encode("再见QwQ", "77");
-    // System.out.println(d);
-    // System.out.println(decode(d, "77"));
-
-    // if (null == decode(c, "77")) {
-    // System.out.println("密码错误");
-    // }
-    // if (null != decode(c, "66")) {
-    // System.out.println("密码正确");
-    // }
-    // }
 }
