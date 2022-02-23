@@ -1,17 +1,16 @@
 package plugin;
 
-// import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateHelper {
-    public static boolean isLeap(int y) {
+    public static boolean isLeap(int y) { //未测试
         return y % 4 == 0 && y % 100 != 0 || y % 400 == 0;
     }
 
-    public static int bfmo[] = { 0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
+    public static int bfmo[] = { 0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 }; 
 
-    public static int days(int y, int m, int d) {// 返回当前总天数
+    public static int days(int y, int m, int d) {// 返回当前总天数 //未测试
         int y2 = y - 1;
         int t = 365 * y2 + y2 / 4 - y2 / 100 + y2 / 400 + bfmo[m] + d;
         if (m > 2 && isLeap(y)) {
@@ -20,7 +19,7 @@ public class DateHelper {
         return t;
     }
 
-    public static int getWeek(int y, int m, int d) { // [0,6]
+    public static int getWeek(int y, int m, int d) { // [0,6] //未测试
         if (m <= 2) {
             m += 12;
         }
@@ -33,10 +32,4 @@ public class DateHelper {
         now.add(Calendar.DAY_OF_YEAR, dt);
         return now.getTime();
     }
-
-    // public static void main(String[] args) throws Exception {
-    // SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-    // Date res = timeDelta(sdf.parse("220222"), -400);
-    // System.out.println(sdf.format(res));
-    // }
 }

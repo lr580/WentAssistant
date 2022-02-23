@@ -24,11 +24,11 @@ public class Tabbar {
     private static JTextField i_comment = new JTextField(12);
     private static JTextField i_cmd = new JTextField(25);
     private static JCheckBox i_multi = new JCheckBox("多项录入");
-    private static double[] money = null;
-    private static int[] date = null;
-    private static int[] type = null;
-    private static String[] comment = null;
-    private static int n = 0;
+    public static double[] money = null;
+    public static int[] date = null;
+    public static int[] type = null;
+    public static String[] comment = null;
+    public static int n = 0;
     private static JButton b_add = new JButton("添加");
     private static JButton b_update = new JButton("编辑");
     private static JButton b_delete = new JButton("删除");
@@ -103,7 +103,6 @@ public class Tabbar {
         i_comment.addActionListener(ev_add);
         i_money.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {// 不能用keyTyped获取无输入的键
-                // System.out.println(e.getKeyCode() + "_" + e.getKeyChar());
                 int code = e.getKeyCode();
                 if (code == KeyEvent.VK_UP) {
                     i_cmd.requestFocus();
@@ -174,7 +173,6 @@ public class Tabbar {
     }
 
     public static void checkShortcuts(KeyEvent e) {
-        // System.out.println("awa");
         if (e.isControlDown()) {// CTRL+
             int code = e.getKeyCode();
             if (code == KeyEvent.VK_I) {
@@ -208,7 +206,13 @@ public class Tabbar {
         }
         if (i_multi.isSelected()) {// 多选
             String s_cmd = i_cmd.getText();
-            n = Supply.getMultiInput(money, date, type, comment, s_money, s_date, s_type, s_comment, s_cmd);
+            n = Supply.getMultiInput(s_money, s_date, s_type, s_comment, s_cmd);
+            // System.out.println();
+            // for (int i = 0; i < n; ++i) {
+            // System.out.println(money[i] + " " + date[i] + " " + type[i] + " " +
+            // comment[i]);
+            // }
+            // return false;// 暂时
         } else {// 单选
             money = new double[1];
             date = new int[1];
