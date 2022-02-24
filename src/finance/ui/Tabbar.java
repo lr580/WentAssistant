@@ -38,7 +38,6 @@ public class Tabbar {
     private static JButton b_importdata = new JButton("导入数据");
     private static Object[] tmp = null;// 点击后获取的一行
     private static TbMain page = null;
-    // 导入暂未实现
 
     public static void InitTabbar() {
         TbMain page = TbMain.that;

@@ -3,7 +3,6 @@ package base;
 import category.core.CatTree;
 import category.core.Cata;
 import mysql.*;
-
 import java.sql.*;
 import java.util.*;
 
@@ -90,6 +89,7 @@ public class DbLoad {
         saved = get_info(type + "_saved");
         cnt = get_info(getTypex());
         cata = new CatTree(Cata.query(type + "_" + t_temp));
+        DbBackup.get_backups();
     }
 
     public static String getTypex() {

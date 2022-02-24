@@ -10,7 +10,7 @@ import java.io.*;
 
 public class TbGlobal extends JPanel {// tabbar global
     public static DbTable jt = null;
-    public static JComboBox<String> jc = new JComboBox<>(DbLoader.backups);
+    public static JComboBox<String> jc = new JComboBox<>(DbBackup.backups);
     private static javax.swing.filechooser.FileFilter flits = new FileNameExtensionFilter("数据库文件(.sql)", "sql");
     public static EvalCtrl pro_save = new EvalCtrl() {
     };
@@ -53,7 +53,7 @@ public class TbGlobal extends JPanel {// tabbar global
 
     public static ActionListener e_backup = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            DbLoader.addbackup();
+            DbBackup.addbackup();
             jc.setSelectedIndex(jc.getItemCount() - 1);
         }
     };
@@ -65,15 +65,15 @@ public class TbGlobal extends JPanel {// tabbar global
                 JOptionPane.showMessageDialog(null, "您没有选中备份项");
                 return;
             }
-            if (DbLoader.saved == 0) {
-                int j = JOptionPane.showConfirmDialog(null, "这将会不可恢复地丢失尚未保存的全部更改,确认还原吗", "提示",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE);
-                if (j != JOptionPane.OK_OPTION) {
-                    return;
-                }
+
+            int j = JOptionPane.showConfirmDialog(null, "这将会不可恢复地丢失当前表格,确认还原吗", "提示",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE);
+            if (j != JOptionPane.OK_OPTION) {
+                return;
             }
-            DbLoader.frombackup(i);
+
+            DbBackup.frombackup(i);
         }
     };
 
@@ -90,7 +90,7 @@ public class TbGlobal extends JPanel {// tabbar global
             if (j != JOptionPane.OK_OPTION) {
                 return;
             }
-            DbLoader.delbackup(i);
+            DbBackup.delbackup(i);
             if (jc.getItemCount() > 0) {
                 jc.setSelectedIndex(0);
             }
@@ -99,13 +99,11 @@ public class TbGlobal extends JPanel {// tabbar global
 
     public static ActionListener e_importall = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            if (DbLoader.saved == 0) {
-                int i = JOptionPane.showConfirmDialog(null, "这将会不可恢复地丢失尚未保存的全部更改,确认撤销吗", "提示",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE);
-                if (i != JOptionPane.OK_OPTION) {
-                    return;
-                }
+            int h = JOptionPane.showConfirmDialog(null, "这将会不可恢复地丢失当前的全部数据,确认导入吗", "警告",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE);
+            if (h != JOptionPane.OK_OPTION) {
+                return;
             }
 
             JFileChooser jfc = new JFileChooser();
@@ -117,7 +115,7 @@ public class TbGlobal extends JPanel {// tabbar global
             }
             File f = jfc.getSelectedFile();
             DbIO.importall(f.toString());
-            // 未检测sql文件的正确性，如果读取到不符合格式的文件会崩，此时需要手动删除数据库(或删掉info的main)让程序启动初始化
+            // 未检测sql文件的正确性，如果读取到不符合格式的文件会崩，此时需要手动删除数据库(或删掉infos的main)让程序启动初始化
         }
     };
 

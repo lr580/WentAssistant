@@ -56,8 +56,6 @@ public class DbTable extends JTable {
                 }
             }
         });
-
-        // render("select * from " + DbLoad.getTypex());// 初始值
     }
 
     private void render(ResultSet res) {
