@@ -12,6 +12,7 @@ import base.DbCtrl;
 import base.DbLoad;
 import base.ModLoad;
 
+//更改直接作用于主表和临时表
 public class CatManager extends JDialog {
     private static boolean isSpawned = false;// 是否有多个窗体
     private CatTree cata = null;
@@ -59,7 +60,6 @@ public class CatManager extends JDialog {
         jp_line2.add(b_update);
         jp_line2.add(b_delete);
         jp_line.add(b_save);
-        // jp_line2.add(b_undo);
         jp_uf.add(jp_line);
         jp_uf.add(jp_line2);
 
@@ -84,7 +84,6 @@ public class CatManager extends JDialog {
                         // return;
                     }
                 }
-                // DbCtrl.save_diary();
 
                 DbLoad.cata = new CatTree(Cata.query(DbLoad.getTypex()));
                 ModLoad.evalctrl.eval();
@@ -179,6 +178,10 @@ public class CatManager extends JDialog {
                 return;
             }
             int idx = catr.getSingleSelect();
+            if (idx == 1) {
+                SwingHelper.syso("根节点不能删除");
+                return;
+            }
             cata.deleteNode(idx);
             DefaultMutableTreeNode nd = catr.getSingle();
             rootm.removeNodeFromParent(nd);
@@ -191,6 +194,7 @@ public class CatManager extends JDialog {
     private void save() {
         DbCtrl.write_diary("保存类别更改");
         Cata.update(type + "_" + x, cata.export());
+        Cata.update(DbLoad.getTypex(false), cata.export());
         set_saved();
     }
 

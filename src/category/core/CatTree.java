@@ -153,6 +153,14 @@ public class CatTree {
         }
     }
 
+    public String findName(int idx) {
+        Node nd = p.get(idx);
+        if (nd == null) {
+            return "已删除";
+        }
+        return nd.name;
+    }
+
     public void addNode(String name, int fa, int w) {
         ++n;
         int idx = ++top;

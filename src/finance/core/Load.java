@@ -44,7 +44,8 @@ public class Load {
                 try {
                     row[0] = res.getInt(1);
                     row[1] = res.getDouble(2);
-                    row[2] = DbLoad.cata.p.get(res.getInt(3)).name;
+                    // row[2] = DbLoad.cata.p.get(res.getInt(3)).name;
+                    row[2] = DbLoad.cata.findName(res.getInt(3));
                     row[3] = Supply.Date2Str(res.getInt(4));
                     row[4] = res.getString(5);
                     return row;
@@ -62,8 +63,7 @@ public class Load {
                     if (cmd.type == 1) {
                         DbLoad.cata.cntNode((Integer) cmd.from[2], 1);
                         Cata.update(DbLoad.getTypex(), DbLoad.cata.export());
-                    }
-                    else if (cmd.type == 3) {
+                    } else if (cmd.type == 3) {
                         DbLoad.cata.cntNode((Integer) cmd.from[2], -1);
                         Cata.update(DbLoad.getTypex(), DbLoad.cata.export());
                     }
@@ -72,8 +72,7 @@ public class Load {
                     if (cmd.type == 1) {
                         DbLoad.cata.cntNode((Integer) cmd.from[2], -1);
                         Cata.update(DbLoad.getTypex(), DbLoad.cata.export());
-                    }
-                    else if (cmd.type == 3) {
+                    } else if (cmd.type == 3) {
                         DbLoad.cata.cntNode((Integer) cmd.from[2], 1);
                         Cata.update(DbLoad.getTypex(), DbLoad.cata.export());
                     }
@@ -85,7 +84,8 @@ public class Load {
                 for (int i = 0; i < res.length; ++i) {
                     res[i] = x[i];
                 }
-                res[2] = DbLoad.cata.p.get((Integer) res[2]).name;
+                // res[2] = DbLoad.cata.p.get((Integer) res[2]).name;
+                res[2] = DbLoad.cata.findName((Integer) res[2]);
                 res[3] = Supply.Date2Str((Integer) res[3]);
                 return res;
             }
