@@ -63,13 +63,9 @@ public class EvSupply {// 事件监听器提供
             int i = JOptionPane.showConfirmDialog(null, "上次退出时未保存，是否保存上次的更改?", "提示", JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE);
             if (i == JOptionPane.OK_OPTION) {
-                // Extend.overwrite(DbLoad.getTypex(), DbLoad.getTypex(false));
-                // DbBackup.overset_infos(DbLoad.getTypex(), DbLoad.getTypex(false));
                 DbBackup.replace(DbLoad.getTypex(), DbLoad.getTypex(false));
                 DbCtrl.write_diary("保存了非正常退出的更改");
             } else if (i == JOptionPane.CANCEL_OPTION) {
-                // Extend.overwrite(DbLoad.getTypex(false), DbLoad.getTypex());
-                // DbBackup.overset_infos(DbLoad.getTypex(false), DbLoad.getTypex());
                 DbBackup.replace(DbLoad.getTypex(false), DbLoad.getTypex());
                 DbCtrl.write_diary("撤销了非正常退出的更改");
             } else {

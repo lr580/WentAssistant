@@ -173,6 +173,36 @@ public class TbGlobal extends JPanel {// tabbar global
         }
     };
 
+    public static void delDatabase() {
+        int j = JOptionPane.showConfirmDialog(null, "这将会不可还原地清空整个数据库，确认删除吗?", "警告",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+        if (j != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        int i = JOptionPane.showConfirmDialog(null, "再次警告，这将会不可还原地清空整个数据库，是否取消执行命令?", "警告",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+        if (i != JOptionPane.CANCEL_OPTION) {
+            return;
+        }
+
+        DbBackup.delDatabase();
+
+        // 因为功能不常用，直接让重启即可，没必要真的重载一次相应代码
+        SwingHelper.syso("清空成功，请重启本程序");
+        DbCtrl.write_diary("清空数据库");
+        DbCtrl.save_diary();
+        System.exit(0);
+    }
+
+    public static ActionListener e_delDatabase = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            delDatabase();
+        }
+    };
+
     public TbGlobal(DbTable jt) {
         TbGlobal.jt = jt;
         setLayout(new GridLayout(2, 1, 5, 5));
@@ -201,6 +231,10 @@ public class TbGlobal extends JPanel {// tabbar global
         JButton b_export = new JButton("导出当前表");
         b_export.addActionListener(e_export);
         uf.add(b_export);
+
+        JButton b_delDatabase = new JButton("清空数据库");
+        b_delDatabase.addActionListener(e_delDatabase);
+        uf.add(b_delDatabase);
 
         JPanel df = new JPanel(new FlowLayout(1, 5, 5));
         add(df);

@@ -51,7 +51,6 @@ public class DbBackup {// 保存撤销的其他拓展，导入导出，备份还
         Ctrl.run("update `infos` set `value`= " + v + " where `key` = '" + to + "'");
 
         String nr = Cata.query(from);
-        // System.out.println(to);
         Cata.add(to);
         Cata.update(to, nr);
 
@@ -66,8 +65,6 @@ public class DbBackup {// 保存撤销的其他拓展，导入导出，备份还
         ++DbLoad.top;
         String from = DbLoad.getTypex();
         String to = ModLoad.nowModule + "_" + DbLoad.top;
-        // Extend.overwrite(from, to);
-        // overset_infos(from, to);
         replace(from, to);
         DbLoad.set_info(ModLoad.nowModule + "_top", DbLoad.top);
         backups.addElement(Integer.toString(DbLoad.top));
@@ -78,8 +75,6 @@ public class DbBackup {// 保存撤销的其他拓展，导入导出，备份还
         int v = Integer.valueOf(backups.elementAt(i));
         String from = ModLoad.nowModule + "_" + v;
         String to = DbLoad.getTypex();
-        // Extend.overwrite(from, to);
-        // overset_infos(from, to);
         ProcessCtrl.save();// 置空
         replace(from, to);
         replace(to, DbLoad.getTypex(false));
@@ -99,15 +94,14 @@ public class DbBackup {// 保存撤销的其他拓展，导入导出，备份还
         backups.remove(v);
         del_table(ModLoad.nowModule + "_" + v);
         DbCtrl.write_diary("删除第" + v + "号备份表");
-        // System.out.println(backups.size());
         if (backups.size() == 0) {
-            // TbGlobal.jc.setSelectedItem("");//不行
             TbGlobal.jc.setSelectedIndex(-1);
         }
     }
 
-    // public static void main(String[] args) {
-    // String tmp = "fin_3";
-    // System.out.println(tmp.substring(tmp.indexOf("_") + 1));
-    // }
+    public static void delDatabase() {
+        String[] s = Init.read_db_settings();
+        Ctrl.run("drop database `" + s[3] + "`");
+        Ctrl.run("create database `" + s[3] + "`");
+    }
 }

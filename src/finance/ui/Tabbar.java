@@ -14,6 +14,7 @@ import base.DbLoad;
 import ui.DbTable;
 import ui.EvSupply;
 import ui.InputFiller;
+import ui.RootMenu;
 import ui.TbMain;
 import plugin.Eval;
 import plugin.FsLabel;
@@ -181,6 +182,26 @@ public class Tabbar {
                 checkShortcuts(e);
             }
         });
+
+        // 菜单绑定：
+        RootMenu.m_add.cmd = new Eval() {
+            public void eval() {
+                add();
+            }
+        };
+        RootMenu.m_update.cmd = new Eval() {
+            public void eval() {
+                update();
+            }
+        };
+        RootMenu.m_remove.cmd = new Eval() {
+            public void eval() {
+                delete();
+            }
+        };
+        // RootMenu.that.e_add = ev_add;
+        // RootMenu.that.e_update = ev_update;
+        // RootMenu.that.e_remove = ev_delete;
     }
 
     public static void checkShortcuts(KeyEvent e) {
@@ -190,7 +211,7 @@ public class Tabbar {
                 add();
             } else if (code == KeyEvent.VK_U) {
                 update();
-            } else if (code == KeyEvent.VK_D) {
+            } else if (code == KeyEvent.VK_R) {
                 delete();
             }
         }

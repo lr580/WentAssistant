@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.event.*;
 import javax.swing.*;
+import plugin.EvalCtrl;
 import plugin.SwingHelper;
 
 public class RootMenu extends JMenuBar {
@@ -10,6 +11,24 @@ public class RootMenu extends JMenuBar {
     public ActionListener e_waiting = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             SwingHelper.syso("敬请期待 ovo");
+        }
+    };
+    public static EvalCtrl m_add = new EvalCtrl();
+    public static EvalCtrl m_update = new EvalCtrl();
+    public static EvalCtrl m_remove = new EvalCtrl();
+    private ActionListener e_add = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            m_add.eval_ctn();
+        }
+    };
+    private ActionListener e_update = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            m_update.eval_ctn();
+        }
+    };
+    private ActionListener e_remove = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            m_remove.eval_ctn();
         }
     };
 
@@ -34,6 +53,18 @@ public class RootMenu extends JMenuBar {
         undoall.addActionListener(TbGlobal.e_undoall);
         undoall.setAccelerator(
                 KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_DOWN_MASK));
+
+        JMenuItem add = new JMenuItem("插入项");
+        add.addActionListener(e_add);
+        add.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK));
+
+        JMenuItem update = new JMenuItem("修改项");
+        update.addActionListener(e_update);
+        update.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK));
+
+        JMenuItem remove = new JMenuItem("删除项");
+        remove.addActionListener(e_remove);
+        remove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_DOWN_MASK));
 
         JMenuItem backup = new JMenuItem("添加到备份");
         backup.addActionListener(TbGlobal.e_backup);
@@ -67,6 +98,10 @@ public class RootMenu extends JMenuBar {
         file.add(undo);
         file.add(redo);
         file.add(undoall);
+        file.addSeparator();
+        file.add(add);
+        file.add(update);
+        file.add(remove);
         file.addSeparator();
         file.add(backup);
         file.add(frombackup);
@@ -124,12 +159,21 @@ public class RootMenu extends JMenuBar {
         });
         reset_mysql.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
 
+        JMenuItem del_database = new JMenuItem("删除数据库");
+        del_database.addActionListener(TbGlobal.e_delDatabase);
+        // del_database.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+        // KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK |
+        // KeyEvent.SHIFT_DOWN_MASK));
+        // 这么危险的指令就不设置快捷键了，而且快捷键这么长很不美观
+
         setting.add(preference);
         setting.addSeparator();
         setting.add(switchs);
         setting.addSeparator();
         setting.add(reset_mysql);
         setting.add(reset_psw);
+        setting.addSeparator();
+        setting.add(del_database);
 
         JMenu help = new JMenu("帮助");
         add(help);

@@ -2,7 +2,6 @@ package base;
 
 import mysql.SqlIO;
 import ui.EvSupply;
-// import ui.DbTable;
 
 public class DbIO {
     public static void importall(String path) {
@@ -13,11 +12,8 @@ public class DbIO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // DbLoad.init();
-        // DbLoad.load_table(ModLoad.nowModule);
         ModLoad.startModule(); // 包含了processctrl.init
         EvSupply.set_saved();
-        // DbTable.that.render("select * from " + DbLoad.getTypex());
     }
 
     public static void exportall(String path) {
