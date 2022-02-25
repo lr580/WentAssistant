@@ -13,6 +13,11 @@ public class RootMenu extends JMenuBar {
             SwingHelper.syso("敬请期待 ovo");
         }
     };
+
+    public static void syso_nosupport() {
+        SwingHelper.syso("当前模块没有此功能 awa");
+    }
+
     public static EvalCtrl m_add = new EvalCtrl();
     public static EvalCtrl m_update = new EvalCtrl();
     public static EvalCtrl m_remove = new EvalCtrl();
@@ -94,6 +99,12 @@ public class RootMenu extends JMenuBar {
         export.addActionListener(TbGlobal.e_export);
         export.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK));
 
+        JMenuItem importcata = new JMenuItem("导入旧类别");
+        importcata.addActionListener(TbGlobal.e_importcata);
+
+        JMenuItem importdata = new JMenuItem("导入旧数据");
+        importdata.addActionListener(TbGlobal.e_importdata);
+
         file.add(save);
         file.add(undo);
         file.add(redo);
@@ -110,6 +121,9 @@ public class RootMenu extends JMenuBar {
         file.add(importall);
         file.add(exportall);
         file.add(export);
+        file.addSeparator();
+        file.add(importcata);
+        file.add(importdata);
 
         JMenu setting = new JMenu("设置");
         add(setting);
@@ -161,10 +175,7 @@ public class RootMenu extends JMenuBar {
 
         JMenuItem del_database = new JMenuItem("删除数据库");
         del_database.addActionListener(TbGlobal.e_delDatabase);
-        // del_database.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
-        // KeyEvent.CTRL_DOWN_MASK | KeyEvent.ALT_DOWN_MASK |
-        // KeyEvent.SHIFT_DOWN_MASK));
-        // 这么危险的指令就不设置快捷键了，而且快捷键这么长很不美观
+        //危险操作、不常用操作不设快捷键
 
         setting.add(preference);
         setting.addSeparator();

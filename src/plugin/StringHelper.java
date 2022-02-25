@@ -23,26 +23,6 @@ public class StringHelper {
         return sb.toString();
     }
 
-    // public static String[] getParam(String[] s, String c) {// 查找参数
-    // // Pattern p_s = Pattern.compile("\\-[a-zA-Z]");
-    // int n = 0;
-    // int lf = 0, rf = 0;
-    // for (int i = 0, ie = s.length; i < ie; ++i) {
-    // if (s[i].equals(c)) {
-    // lf = i + 1;
-    // for (int j = lf + 1; j < ie; ++j) {
-    // // Matcher m = p.matcher(s[j]);
-    // // if (m.find()) {
-    // // break;
-    // // }
-    // // if(isParam(s))
-    // rf = Math.max(rf, j);
-    // }
-    // }
-
-    // }
-    // }
-
     private static Pattern p_param = Pattern.compile("\\-[a-zA-Z]|\\-\\-[a-zA-Z]+");
 
     public static boolean isParam(String s) {// 是否是长参数或短参数
@@ -55,23 +35,16 @@ public class StringHelper {
         int last = 0;// 上一个key的位置
         ArrayList<Param> res = new ArrayList<>();
         for (int i = 0, ie = s.length; i <= ie; ++i) {
-            // System.out.println(i);
             if (i == ie || isParam(s[i])) {
-                // if (i != ie) {
-                // System.out.println(s[i]);
-                // }
                 if (key != null) {
                     int rf = i - 1;
                     int lf = last + 1;
                     int len = rf - lf + 1;
-                    // System.out.println(lf + " " + rf + " " + len);
                     String[] value = new String[len];
                     for (int j = lf, k = 0; j <= rf; ++j, ++k) {
-                        // System.out.println(i + " " + j);
                         value[k] = s[j];
                     }
                     Param param = new Param(key, value);
-                    // System.out.println(param.toString());
                     res.add(param);
                 }
                 last = i;
@@ -104,9 +77,4 @@ public class StringHelper {
         Transferable res = new StringSelection(s);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(res, null);
     }
-
-    // public static void main(String[] args) {
-    // getParams("13 -t -1 6 --global 123 459 -gg");
-    // getParams("-W -t -20 -1 -p 2.0 6.0 -c 我是 你是 它是 -w");
-    // }
 }

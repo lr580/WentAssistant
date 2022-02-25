@@ -18,6 +18,7 @@ import ui.DbTable;
 import ui.TableBlender;
 import ui.TableUpdater;
 import ui.TbGlobal;
+import ui.TbMain;
 
 public class Load {
     public static Vector<String> cat_list = new Vector<>();
@@ -46,7 +47,6 @@ public class Load {
                 try {
                     row[0] = res.getInt(1);
                     row[1] = res.getDouble(2);
-                    // row[2] = DbLoad.cata.p.get(res.getInt(3)).name;
                     row[2] = DbLoad.cata.findName(res.getInt(3));
                     row[3] = Supply.Date2Str(res.getInt(4));
                     row[4] = res.getString(5);
@@ -122,6 +122,18 @@ public class Load {
                 double v2 = w / 100.0;
                 String sgn = v2 < 0.0 ? "" : "+";
                 return name + ": " + mf.format(v) + " (" + sgn + mf.format(v2) + ") " + "\n";
+            }
+        };
+
+        TbGlobal.f_importcata.cmd = new Eval() {
+            public void eval() {
+                OldSupporter.import_cata(TbMain.that);
+            }
+        };
+
+        TbGlobal.f_importdata.cmd = new Eval() {
+            public void eval() {
+                OldSupporter.import_data(TbMain.that);
             }
         };
 

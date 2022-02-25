@@ -72,6 +72,9 @@ public class Supply {// 库辅助函数
 
         for (int i = 0; i < n; ++i) {
             money[i] = Double.parseDouble(a_money[i]);
+            if (Tabbar.reverse) {
+                money[i] = -money[i];
+            }
         }
 
         int n_date = a_date.length;

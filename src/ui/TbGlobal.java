@@ -16,6 +16,10 @@ public class TbGlobal extends JPanel {// tabbar global
     };
     public static EvalCtrl pro_undoall = new EvalCtrl() {
     };
+    public static EvalCtrl f_importcata = new EvalCtrl() {
+    };
+    public static EvalCtrl f_importdata = new EvalCtrl() {
+    };
 
     public static ActionListener e_save = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -203,6 +207,18 @@ public class TbGlobal extends JPanel {// tabbar global
         }
     };
 
+    public static ActionListener e_importcata = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            f_importcata.eval_ctn();
+        }
+    };
+
+    public static ActionListener e_importdata = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            f_importdata.eval_ctn();
+        }
+    };
+
     public TbGlobal(DbTable jt) {
         TbGlobal.jt = jt;
         setLayout(new GridLayout(2, 1, 5, 5));
@@ -260,5 +276,13 @@ public class TbGlobal extends JPanel {// tabbar global
         JButton b_delbackup = new JButton("删除选中备份");
         b_delbackup.addActionListener(e_delbackup);
         df.add(b_delbackup);
+
+        JButton b_importcata = new JButton("导入旧类别");
+        b_importcata.addActionListener(e_importcata);
+        df.add(b_importcata);
+
+        JButton b_importdata = new JButton("导入旧数据");
+        b_importdata.addActionListener(e_importdata);
+        df.add(b_importdata);
     }
 }

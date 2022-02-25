@@ -10,10 +10,8 @@ import base.DbLoad;
 import plugin.DateHelper;
 import plugin.Param;
 import plugin.StringHelper;
-// import plugin.SwingHelper;
 import ui.DbTable;
 import ui.TableFilter;
-
 import java.text.SimpleDateFormat;
 
 public class Search {
@@ -27,15 +25,9 @@ public class Search {
     private static double money_min = inf_n;
     private static double money_max = inf_p;
     private static ArrayList<Integer> types = null;
-    // private static String lim_comment = null;
-    // private static String lim_comment_regex = null;
-    // private static boolean limit_comment = false;
-    // private static boolean limit_comment_regex = false;
     private static int cmds = 0;// 数据库条件数
     private static boolean weekdayOnly = false;
     private static boolean weekendOnly = false;
-    // private static String res_t = "select * from # where date >= ? and date <=
-    // ?";
     private static Pattern p_nint = Pattern.compile("[^0-9]+");
 
     private static int dateComplete(int x, boolean isFirst) {
@@ -45,14 +37,11 @@ public class Search {
             int yy = cld.get(Calendar.YEAR) % 100;
             x += 100 * yy;
         } else if (x < 100) {// 只有年份，补全月份
-            // int mm = cld.get(Calendar.MONTH) + 1;
-            // x = x * 100 + mm;
             if (isFirst) {
                 x = x * 100 + 1;
             } else {
                 x = x * 100 + 12;
             }
-            // System.out.println(x);
         }
         if (x >= 101 && x <= 1231)// 只有月份，补全年份
         {
@@ -92,7 +81,6 @@ public class Search {
         }
     }
 
-    // private static void moneyComplete(double x, double y) {
     private static void moneyComplete(String x, String y) {
         if (x.equals("*")) {
             money_min = inf_n;
@@ -119,28 +107,15 @@ public class Search {
 
     public static void search(String cmd) {
         cmds = 0;
-        // limit_comment = limit_comment_regex = false;
-        // lim_comment = lim_comment_regex = null;
         res = new StringBuilder("select * from " + DbLoad.getTypex());
         types = DbLoad.cata.getSubtree(1);
         int ori_types_len = types.size();
         weekdayOnly = weekendOnly = false;
 
         String c = StringHelper.trimAll(cmd);
-        // if (c.length() == 0) {// 空指令
-        // return;
-        // }
-        // res =
 
         Iterator<Param> it = StringHelper.getParams(c).iterator();
         while (it.hasNext()) {
-            // ++cmds;// 取length即可(假定用户输入绝对正确)
-            // if (cmds++ == 0) {
-            // res.append(" where ");
-            // } else {
-            // res.append(" and ");
-            // }
-
             Param p = it.next();
             String k = p.key;
             String[] v = p.value;
@@ -151,30 +126,22 @@ public class Search {
                     dateComplete(Integer.parseInt(v[0]), Integer.parseInt(v[1]));
                 }
 
-                // System.out.println("-t " + date_begin + " " + date_end);
                 add_connector(cmds++);
                 String t = "date >= " + date_begin + " and date <= " + date_end;
                 res.append(t);
 
             } else if (k.equals("-p") || k.equals("--price")) {
-                // double v1 = Double.parseDouble(v[0]);
                 if (v.length == 1) {
                     moneyComplete(v[0], v[0]);
                 } else if (v.length == 2) {
-                    // double v2 = Double.parseDouble(v[1]);
                     moneyComplete(v[0], v[1]);
                 }
 
-                // System.out.println("-p " + money_min + " " + money_max);
                 add_connector(cmds++);
                 String t = "value >= " + money_min + " and value <= " + money_max;
                 res.append(t);
 
             } else if (k.equals("-B")) {
-                // limit_comment = true;
-                // lim_comment = v[0];
-                // System.out.println("-b " + lim_comment);
-
                 add_connector(cmds++);
                 res.append("(");
                 for (int i = 0, ie = v.length; i < ie; ++i) {
@@ -185,10 +152,6 @@ public class Search {
                 }
                 res.append(")");
             } else if (k.equals("-b")) {
-                // limit_comment_regex = true;
-                // lim_comment_regex = v[0];
-                // System.out.println("-B " + lim_comment_regex);
-
                 add_connector(cmds++);
                 res.append("(");
                 for (int i = 0, ie = v.length; i < ie; ++i) {
@@ -234,11 +197,6 @@ public class Search {
         }
 
         if (types.size() != ori_types_len && types.size() > 0) {
-            // if (cmds == 0) {
-            // res.append(" where ");
-            // } else {
-            // res.append(" and ");
-            // }
             add_connector(cmds);
             res.append("type in (");
             for (int i = 0, ie = types.size(); i < ie; ++i) {
@@ -250,17 +208,10 @@ public class Search {
             res.append(")");
         }
 
-        // System.out.println(res.toString());
-        // SwingHelper.syso(res.toString());
-
         if (weekdayOnly) {
             DbTable.filter = new TableFilter() {
                 public boolean isReserve(Object[] row) {
-                    // Date d = Supply.date2TDate((Integer) row[3]);
                     Date d = Supply.date2TDate(Supply.Str2Date((String) row[3]));
-                    // Calendar c = Calendar.getInstance();
-                    // c.setTime(d);
-                    // return cld.get(Calendar.DAY_OF_WEEK) < 5;
                     return DateHelper.getWeek(d) < 5;
                 }
             };
@@ -268,7 +219,6 @@ public class Search {
         if (weekendOnly) {
             DbTable.filter = new TableFilter() {
                 public boolean isReserve(Object[] row) {
-                    // Date d = Supply.date2TDate((Integer) row[3]);
                     Date d = Supply.date2TDate(Supply.Str2Date((String) row[3]));
                     return DateHelper.getWeek(d) >= 5;
                 }
@@ -281,8 +231,4 @@ public class Search {
 
         DbTable.that.render(res.toString());
     }
-
-    // public static void main(String[] args) {
-    // System.out.println(StringHelper.trimAll("").length());
-    // }
 }

@@ -27,8 +27,6 @@ public class Stat {// 统计
     private static double avg = 0;
     private static double sum_weekday = 0;
     private static double sum_weekend = 0;
-    // private static int n_weekday = 0;
-    // private static int n_weekend = 0;
     private static DecimalFormat sdf = new DecimalFormat("0.00");
     public static StringBuilder res = null;// 结果文本
 
@@ -39,7 +37,6 @@ public class Stat {// 统计
         n = Tabbar.money.length;
         months = new TreeMap<>();
         sum = sum_weekend = sum_weekday = 0;
-        // n_weekday = n_weekend = 0;
         date_mi = 999999;
         date_mx = 0;
         std = avg = 0;
@@ -89,12 +86,8 @@ public class Stat {// 统计
         res.append("日均金额: " + sdf.format(sum / m) + "\n");
         res.append("金额方差: " + sdf.format(std) + "\n");
         res.append("工作日总金额: " + sdf.format(sum_weekday) + "\n");
-        // res.append("工作日均金额: " + sdf.format(sum_weekday / Math.max(1, n_weekday)) +
-        // "\n");
         res.append("工作日均金额: " + sdf.format(sum_weekday / m) + "\n");
         res.append("周末的总金额: " + sdf.format(sum_weekend) + "\n");
-        // res.append("周末的均金额: " + sdf.format(sum_weekend / Math.max(1, n_weekend)) +
-        // "\n");
         res.append("周末的均金额: " + sdf.format(sum_weekend / m) + "\n");
         res.append("\n");
 

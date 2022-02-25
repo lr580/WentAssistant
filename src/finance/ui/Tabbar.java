@@ -6,7 +6,7 @@ import base.PrefManager;
 import base.ProcessCmd;
 import base.ProcessCtrl;
 import finance.core.Load;
-import finance.core.OldSupporter;
+// import finance.core.OldSupporter;
 import finance.core.Search;
 import finance.core.Stat;
 import finance.core.Supply;
@@ -29,22 +29,20 @@ public class Tabbar {
     private static JTextField i_comment = new JTextField(12);
     private static JTextField i_cmd = new JTextField(25);
     private static JCheckBox i_multi = new JCheckBox("多项录入");
+    private static JCheckBox i_reverse = new JCheckBox("默认支出", true);
     public static double[] money = null;
     public static int[] date = null;
     public static int[] type = null;
     public static String[] comment = null;
+    public static boolean reverse = true;
     private static int n = 0;
     private static JButton b_add = new JButton("添加");
     private static JButton b_update = new JButton("编辑");
     private static JButton b_delete = new JButton("删除");
-    private static JButton b_importcata = new JButton("导入类别");
-    private static JButton b_importdata = new JButton("导入数据");
     private static Object[] tmp = null;// 点击后获取的一行
-    private static TbMain page = null;
 
     public static void InitTabbar() {
         TbMain page = TbMain.that;
-        Tabbar.page = page;
         page.removeAll();
         page.setLayout(new GridLayout(2, 1, 5, 5));
         JPanel p_uf = new JPanel(new FlowLayout(1, 8, 5));
@@ -63,9 +61,10 @@ public class Tabbar {
         p_uf.add(i_multi);
 
         JButton b_catactrl = new JButton("类别管理");
-        b_catactrl.addActionListener(ev_catactrl);
         p_uf.add(b_catactrl);
-        p_uf.add(b_importcata);
+
+        p_uf.add(i_reverse);
+
         p_df.add(b_add);
         p_df.add(b_update);
         p_df.add(b_delete);
@@ -79,15 +78,13 @@ public class Tabbar {
         JButton b_stat = new JButton("统计");
         p_df.add(b_stat);
 
-        p_df.add(b_importdata);
-
+        b_catactrl.addActionListener(ev_catactrl);
         b_add.addActionListener(ev_add);
         b_update.addActionListener(ev_update);
         b_delete.addActionListener(ev_delete);
         b_search.addActionListener(ev_search);
         b_stat.addActionListener(ev_stat);
-        b_importcata.addActionListener(ev_importcata);
-        b_importdata.addActionListener(ev_importdata);
+        i_reverse.addActionListener(ev_reverse);
 
         activate();// 各种其他事件激活
     }
@@ -99,9 +96,12 @@ public class Tabbar {
                 for (int i = 0; i < 5; ++i) {
                     tmp[i] = s[i];
                 }
+                if (reverse) {
+                    tmp[1] = -1.0 * (double) tmp[1];
+                }
                 tmp[2] = Load.cat_list.indexOf(s[2].toString());
                 tmp[3] = Supply.Str2Date(s[3].toString());
-                i_money.setText(s[1].toString());
+                i_money.setText(tmp[1].toString());
                 int idx = Load.cat_list.indexOf(s[2].toString());
                 i_type.setSelectedIndex(idx);
                 i_date.setText(Integer.toString(Supply.Str2Date(s[3].toString())));
@@ -261,6 +261,9 @@ public class Tabbar {
             type = new int[1];
             comment = new String[1];
             money[0] = Double.parseDouble(s_money);
+            if (reverse) {
+                money[0] = -money[0];
+            }
             date[0] = Integer.parseInt(s_date);
             type[0] = s_type;
             comment[0] = s_comment;
@@ -332,11 +335,7 @@ public class Tabbar {
 
     private static void search() {// 允许空，空代表搜索全部
         String cmd = i_cmd.getText();
-        // if (cmd.length() == 0) {
-        // return;
-        // }
         Search.search(cmd);
-        // DbTable.that.render(Search.res);
     }
 
     private static ActionListener ev_add = new ActionListener() {
@@ -369,15 +368,9 @@ public class Tabbar {
         }
     };
 
-    private static ActionListener ev_importcata = new ActionListener() {
+    private static ActionListener ev_reverse = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            OldSupporter.import_cata(page);
-        }
-    };
-
-    private static ActionListener ev_importdata = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            OldSupporter.import_data(page);
+            reverse = i_reverse.isSelected();
         }
     };
 }
