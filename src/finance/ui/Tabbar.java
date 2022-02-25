@@ -7,6 +7,7 @@ import base.ProcessCmd;
 import base.ProcessCtrl;
 import finance.core.Load;
 import finance.core.OldSupporter;
+import finance.core.Stat;
 import finance.core.Supply;
 import java.awt.*;
 import java.awt.event.*;
@@ -105,6 +106,16 @@ public class Tabbar {
                 i_date.setText(Integer.toString(Supply.Str2Date(s[3].toString())));
                 i_comment.setText(s[4].toString());
             }
+
+            public Object[] convert(Object[] s) {// 注意跟fill不一样
+                Object[] tmp = new Object[5];
+                for (int i = 0; i < 5; ++i) {
+                    tmp[i] = s[i];
+                }
+                tmp[2] = DbLoad.cata.find((String) tmp[2]);
+                tmp[3] = Supply.Str2Date(s[3].toString());
+                return tmp;
+            }
         };
 
         i_date.setText(Integer.toString(Supply.Now2Date()));
@@ -199,9 +210,6 @@ public class Tabbar {
                 delete();
             }
         };
-        // RootMenu.that.e_add = ev_add;
-        // RootMenu.that.e_update = ev_update;
-        // RootMenu.that.e_remove = ev_delete;
     }
 
     public static void checkShortcuts(KeyEvent e) {
@@ -314,6 +322,12 @@ public class Tabbar {
         }
     }
 
+    private static void stat() {
+        Supply.fetchAll();
+        Stat.stat();
+        new StatMessage();
+    }
+
     private static ActionListener ev_add = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             add();
@@ -339,6 +353,7 @@ public class Tabbar {
 
     private static ActionListener ev_stat = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
+            stat();
         }
     };
 

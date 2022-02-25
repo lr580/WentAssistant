@@ -46,16 +46,34 @@ public class EvSupply {// 事件监听器提供
         }
     };
 
-    public static File select_file(Container ct, javax.swing.filechooser.FileFilter filter) {
+    public static File select_file(Container ct, javax.swing.filechooser.FileFilter filter, boolean isOpen) {
         JFileChooser fc = new JFileChooser();
         if (filter != null) {
             fc.setFileFilter(filter);
         }
         fc.setCurrentDirectory(new File("."));
-        if (fc.showOpenDialog(ct) != JFileChooser.APPROVE_OPTION) {
+        int i;
+        if (isOpen) {
+            i = fc.showOpenDialog(ct);
+        } else {
+            i = fc.showSaveDialog(ct);
+        }
+        if (i != JFileChooser.APPROVE_OPTION) {
             return null;
         }
-        return fc.getSelectedFile();
+        File res = fc.getSelectedFile();
+        if (!isOpen && res.exists()) {
+            int j = JOptionPane.showConfirmDialog(null, "文件已存在，是否覆盖?", "提示", JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE);
+            if (j != JOptionPane.OK_OPTION) {
+                return null;
+            }
+        }
+        return res;
+    }
+
+    public static File select_file(Container ct, javax.swing.filechooser.FileFilter filter) {
+        return select_file(ct, filter, true);
     }
 
     public static void check_abnormal_exit() {// 是否非正常退出

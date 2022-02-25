@@ -3,12 +3,14 @@ package finance.core;
 import java.util.Map;
 import java.util.Vector;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import base.DbCtrl;
 import base.DbLoad;
 import base.ProcessCmd;
 import base.ProcessCtrl;
 import category.core.CatTree;
 import category.core.Cata;
+import category.core.SumBlender;
 import finance.ui.Tabbar;
 import mysql.Ctrl;
 import plugin.Eval;
@@ -101,6 +103,25 @@ public class Load {
             public void eval() {
                 CatTree ori = new CatTree(Cata.query(DbLoad.getTypex(false)));
                 Cata.update(DbLoad.getTypex(), ori.export());
+            }
+        };
+
+        CatTree.sumblender = new SumBlender() {
+            public String blend_line(int value, int w) {
+                if (value == 0) {
+                    return "";
+                }
+                return "...";
+            }
+
+            public String blend_value(String name, int value, int w) {
+                if (value == 0) {
+                    return "";
+                }
+                DecimalFormat mf = new DecimalFormat("0.00");// 不能放成员,因为是内部类(内部接口)
+                double v = value / 100.0;
+                double v2 = w / 100.0;
+                return name + ": " + mf.format(v) + " (+" + mf.format(v2) + ") " + "\n";
             }
         };
 

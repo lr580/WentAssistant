@@ -8,7 +8,6 @@ import java.util.TreeSet;
 import java.util.Vector;
 import java.util.HashMap;
 import plugin.Pair;
-// import plugin.FileHelper;
 
 public class CatTree {
     public int n = 0;// 点数
@@ -19,6 +18,8 @@ public class CatTree {
     public int top = 0;// 最大点编号
     private int root = 1;// 根节点编号
     public HashMap<String, Integer> h;// 名字-编号对应表
+    public static SumBlender sumblender = new SumBlender() {
+    };
 
     private void addedge(int u, int v) {
         ++cnt;
@@ -107,11 +108,15 @@ public class CatTree {
             dfs_sumorder(pr.y, d + 1);
         }
         String s = "";
+        Node nd = p.get(u);
+        int w = nd.w;
         for (int i = 0; i < d; ++i) {
-            s += "...";
+            // s += "...";
+            s += sumblender.blend_line(sum[u], w);
         }
-        s += p.get(u).name;
-        s += ": " + sum[u] + "\n";
+        // s += p.get(u).name;
+        // s += ": " + sum[u] + "\n";
+        s += sumblender.blend_value(nd.name, sum[u], w);
         res.insert(0, s);
     }
 
@@ -129,14 +134,7 @@ public class CatTree {
     }
 
     boolean isAncestorOf(int u, int v) {// u是否是v的祖先(或u=v)
-        // if (u == v) {
-        // return true;
-        // }
-        // int fa = p.get(v).father;
-        // if (fa == 0) {
-        // return false;
-        // }
-        // return isAncestorOf(u, fa); 递归效率低下
+        // 递归效率低下,所以用循环
         for (; v != 0; v = p.get(v).father) {
             if (u == v) {
                 return true;
@@ -184,7 +182,6 @@ public class CatTree {
     }
 
     public void deleteNode(int u) {
-        // List<Integer> dels = new LinkedList<>();
         for (int i = hd.get(u); i != 0; i = e.get(i).next) {
             int v = e.get(i).to;
             if (v != p.get(u).father) {
@@ -194,11 +191,6 @@ public class CatTree {
             int j = ((i + 1) ^ 1) - 1;
             e.set(j, new Edge(0, e.get(j).next));
         }
-        // Iterator<Integer> it = dels.iterator();
-        // while (it.hasNext()) {
-        // int idx = it.next();
-        // e.remove(idx);
-        // }
         --n;
         h.remove(p.get(u).name);
         hd.set(u, 0);
