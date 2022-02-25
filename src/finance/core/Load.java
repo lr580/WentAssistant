@@ -86,7 +86,6 @@ public class Load {
                 for (int i = 0; i < res.length; ++i) {
                     res[i] = x[i];
                 }
-                // res[2] = DbLoad.cata.p.get((Integer) res[2]).name;
                 res[2] = DbLoad.cata.findName((Integer) res[2]);
                 res[3] = Supply.Date2Str((Integer) res[3]);
                 return res;
@@ -121,7 +120,8 @@ public class Load {
                 DecimalFormat mf = new DecimalFormat("0.00");// 不能放成员,因为是内部类(内部接口)
                 double v = value / 100.0;
                 double v2 = w / 100.0;
-                return name + ": " + mf.format(v) + " (+" + mf.format(v2) + ") " + "\n";
+                String sgn = v2 < 0.0 ? "" : "+";
+                return name + ": " + mf.format(v) + " (" + sgn + mf.format(v2) + ") " + "\n";
             }
         };
 

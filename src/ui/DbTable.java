@@ -25,6 +25,8 @@ public class DbTable extends JTable {
     public static int tb_state = 0; // 表格状态(各模块自定义)
     public static TableUpdater updater = new TableUpdater() {
     }; // 默认不记录日志(因为含重做指令的可能性)
+    public static TableFilter filter = new TableFilter() {
+    };
 
     public DbTable() {
         that = this;
@@ -71,7 +73,11 @@ public class DbTable extends JTable {
                 ty[i] = reso.getColumnType(i);// 不判断直接全部getString也行
             }
             while (res.next()) {
-                tm.addRow(blender.blend(res, n, ty));// 根据模块需求动态改变
+                Object[] row = blender.blend(res, n, ty);
+                if (!filter.isReserve(row)) {
+                    continue;
+                }
+                tm.addRow(row);// 根据模块需求动态改变
             }
         } catch (Exception e) {
             Ctrl.raised(e);

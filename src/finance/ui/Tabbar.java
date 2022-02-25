@@ -7,6 +7,7 @@ import base.ProcessCmd;
 import base.ProcessCtrl;
 import finance.core.Load;
 import finance.core.OldSupporter;
+import finance.core.Search;
 import finance.core.Stat;
 import finance.core.Supply;
 import java.awt.*;
@@ -124,6 +125,7 @@ public class Tabbar {
         i_money.addActionListener(ev_add);
         i_date.addActionListener(ev_add);
         i_comment.addActionListener(ev_add);
+        i_cmd.addActionListener(ev_search);
         i_money.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {// 不能用keyTyped获取无输入的键
                 int code = e.getKeyCode();
@@ -328,6 +330,15 @@ public class Tabbar {
         new StatMessage();
     }
 
+    private static void search() {// 允许空，空代表搜索全部
+        String cmd = i_cmd.getText();
+        // if (cmd.length() == 0) {
+        // return;
+        // }
+        Search.search(cmd);
+        // DbTable.that.render(Search.res);
+    }
+
     private static ActionListener ev_add = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             add();
@@ -348,6 +359,7 @@ public class Tabbar {
 
     private static ActionListener ev_search = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
+            search();
         }
     };
 

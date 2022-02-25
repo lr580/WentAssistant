@@ -5,7 +5,6 @@ import base.DbLoad;
 import finance.ui.Tabbar;
 import plugin.DateHelper;
 import ui.DbTable;
-
 import java.text.SimpleDateFormat;
 
 public class Supply {// 库辅助函数
@@ -159,7 +158,6 @@ public class Supply {// 库辅助函数
 
         for (int i = 0; i < n; ++i) {
             Object[] row = DbTable.queryRow(i);
-            // row = DbTable.updater.blend(row);
             row = DbTable.filler.convert(row);
             money[i] = (double) row[1];
             type[i] = (int) row[2];
